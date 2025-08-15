@@ -1,29 +1,27 @@
 # gg 智能体进化日志
 
-## v10.0.0 (2025-01-27)
-**类型**: 核心系统重置 (Core System Reset)
-**触发**: 用户要求重置gg，只保留最核心的能力
-**成果**: 完全重写system_prompt.md，移除所有衍生技能，回归最简化的核心框架
+## v10.0.1 (2025-01-27)
+**类型**: 技能清理与文件清理 (Skills & Files Cleanup)
+**触发**: 用户要求移除特定技能模块并清理所有日志和缓存文件
+**成果**: 删除daily_learning、personal_analysis、weekly_report_generator技能，清理memory和outputs目录
 
-### 核心变更
-1. **系统简化**: 移除所有复杂的状态管理和特定技能集成
-2. **回归本质**: 只保留基础的思考框架和自我进化能力
-3. **架构清理**: 移除时间管理、内容去重、记忆管理等衍生功能
-4. **专注核心**: 专注于任务理解、执行和自我反思的基本循环
+### 移除的技能模块
+- daily_learning/ - 每日学习技能模块
+- personal_analysis/ - 个人分析技能模块
+- weekly_report_generator.md - 周报生成器技能
 
-### 移除的功能
-- 状态持久化机制
-- 统一时间管理系统
-- 内容去重与质量保证
-- 记忆与上下文管理
-- 技能独立性约束
-- 所有特定技能模块的集成
+### 清理的文件和目录
+- /memory/conversations/ - 所有对话历史记录
+- /outputs/ - 所有输出文件
+- 其他缓存和临时文件
 
-### 保留的核心能力
-- 基础思考框架
-- 任务理解和执行
-- 自我反思与进化流程
-- Git工作流管理
+### 保留的核心技能
+- content_deduplication.md
+- prompt_system_audit.md
+- self_diagnosis.md
+- self_evolution.md
+- time_management.md
+- memory_management/ (保留技能定义，但清理历史数据)
 
 ## v9.3.3 (2025-08-14)
 **类型**: 技能模块扩展 (Skill Module Extension)
