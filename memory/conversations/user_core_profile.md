@@ -1,7 +1,7 @@
 ---
 version: 1.0.0
-created: 2024-12-19
-last_updated: 2024-12-19
+created: 2025-08-19
+last_updated: 2025-08-19
 description: "用户核心特征档案 - 相对稳定的信息"
 ---
 
