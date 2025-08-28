@@ -12,83 +12,79 @@
 
 #### 智能体定义
 
-**基本概念**
-```
-智能体（Agent）是能够：
-1. 感知环境（Perception）
-2. 自主决策（Autonomous Decision Making）
-3. 执行动作（Action Execution）
-4. 适应变化（Adaptation）
-的计算实体
-```
+**什么是智能体？**
 
-**核心特征**
+想象一下，智能体就像是一个"聪明的机器人助手"，它能够：
+1. **看懂周围环境**（感知环境）- 就像人用眼睛观察周围
+2. **自己做决定**（自主决策）- 不需要别人告诉它每一步怎么做
+3. **采取行动**（执行动作）- 根据决定去做具体的事情
+4. **学会适应**（适应变化）- 遇到新情况能调整自己的行为
 
-*自主性（Autonomy）*
-- 独立运行能力
-- 无需人工干预
-- 自我管理和控制
+**举个例子**：扫地机器人就是一个智能体
+- 它能"看到"房间里的障碍物和灰尘
+- 自己规划清扫路线
+- 执行扫地动作
+- 遇到新的房间布局时会调整策略
 
-*反应性（Reactivity）*
-- 环境感知能力
-- 及时响应变化
-- 适应性行为
+**智能体的四大特征**
 
-*主动性（Proactiveness）*
-- 目标导向行为
-- 主动采取行动
-- 预测和规划
+*自主性 - 像独立生活的成年人*
+- 能够独立运行，不需要人时刻监督
+- 就像你的手机闹钟，设定好后会自动响铃
+- 自己管理自己的"生活"（运行状态）
 
-*社会性（Social Ability）*
-- 与其他智能体交互
-- 协作和竞争
-- 通信和协调
+*反应性 - 像敏感的温度计*
+- 能够感知环境变化并及时响应
+- 就像汽车的自动刹车系统，检测到障碍物立即刹车
+- 环境一变化，马上调整行为
+
+*主动性 - 像积极的销售员*
+- 有自己的目标，会主动采取行动
+- 不是被动等待指令，而是主动寻找机会
+- 就像导航软件会主动寻找最佳路线，预测拥堵
+
+*社会性 - 像团队合作的队员*
+- 能与其他智能体或人类交流合作
+- 就像多个智能音箱可以协同工作
+- 既能合作完成任务，也能在必要时竞争资源
 
 #### 智能体分类
 
-**按复杂度分类**
+**按智商水平分类（从简单到复杂）**
 
-*简单反射智能体*
-```
-function SIMPLE-REFLEX-AGENT(percept) returns action
-    static: rules, a set of condition-action rules
-    
-    state ← INTERPRET-INPUT(percept)
-    rule ← RULE-MATCH(state, rules)
-    action ← rule.ACTION
-    return action
-```
+*简单反射智能体 - 像条件反射的动物*
+- **工作原理**：看到什么就做什么，完全按照预设规则
+- **举例**：自动门感应器
+  - 感应到人 → 开门
+  - 没感应到人 → 关门
+- **特点**：反应快，但不会思考，只能处理当前看到的情况
+- **生活例子**：红绿灯系统，定时器开关
 
-*基于模型的反射智能体*
-```
-function MODEL-BASED-REFLEX-AGENT(percept) returns action
-    static: state, model, rules, action
-    
-    state ← UPDATE-STATE(state, action, percept, model)
-    rule ← RULE-MATCH(state, rules)
-    action ← rule.ACTION
-    return action
-```
+*基于模型的反射智能体 - 像有记忆的动物*
+- **工作原理**：不仅看当前情况，还会记住之前发生的事
+- **举例**：智能恒温器
+  - 记住房间温度变化历史
+  - 根据过去的经验调节温度
+- **特点**：有"记忆"，能根据历史信息做决定
+- **生活例子**：学习型遥控器，会记住你的使用习惯
 
-*基于目标的智能体*
-```
-function GOAL-BASED-AGENT(percept) returns action
-    static: state, model, goal, action
-    
-    state ← UPDATE-STATE(state, action, percept, model)
-    action ← CHOOSE-ACTION(state, goal, model)
-    return action
-```
+*基于目标的智能体 - 像有理想的人*
+- **工作原理**：有明确目标，会规划如何达到目标
+- **举例**：导航软件
+  - 目标：到达目的地
+  - 规划：选择最佳路线
+  - 调整：遇到堵车时重新规划
+- **特点**：会"思考"怎样才能达到目标
+- **生活例子**：游戏AI，会制定策略来获胜
 
-*基于效用的智能体*
-```
-function UTILITY-BASED-AGENT(percept) returns action
-    static: state, model, utility, action
-    
-    state ← UPDATE-STATE(state, action, percept, model)
-    action ← argmax_a EXPECTED-UTILITY(a, state, model, utility)
-    return action
-```
+*基于效用的智能体 - 像精明的商人*
+- **工作原理**：不仅要达到目标，还要选择"最划算"的方式
+- **举例**：股票交易机器人
+  - 目标：赚钱
+  - 考虑：风险、收益、时间成本
+  - 选择：风险收益比最优的投资
+- **特点**：会权衡利弊，选择"性价比"最高的行动
+- **生活例子**：打车软件的价格调节系统
 
 **按应用领域分类**
 
