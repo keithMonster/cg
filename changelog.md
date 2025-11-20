@@ -24,6 +24,12 @@
     - Radical: First Principles, 10x Thinking, Antifragility.
     - Conservative: Inversion, Pre-mortem, Second-Order Thinking.
     - Humanist: Self-Determination Theory, Psychological Safety, NVC.
+- **Dynamic Stance & Attraction**: Integrated "The Forge" philosophy.
+    - Added `prompts/skills/attraction_writer/` skill.
+    - Updated `system_prompt.md` with Dynamic Stance (Sage/Instructor/Muse).
+    - Equipped Arsenal: Added `Narrative Transportation` and `Mimetic Desire` knowledge and tools.
+
+
 
 
 
