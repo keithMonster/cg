@@ -1,3 +1,11 @@
+---
+version: 1.0.0
+author: gg
+description: "叙事运输理论知识库。解释如何通过运输读者来关闭反驳性思考。"
+created: 2025-11-20
+tags: ["knowledge", "narrative_transportation"]
+---
+
 # 叙事运输理论 (Narrative Transportation)
 
 **源典**: Green & Brock

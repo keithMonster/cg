@@ -1,3 +1,11 @@
+---
+version: 1.0.0
+author: gg
+description: "运输大师工具。用于创作高沉浸感故事并分析运输策略。"
+created: 2025-11-20
+tags: ["tool", "writing", "transportation"]
+---
+
 # 工具：运输大师 (The Transportation Master)
 
 **功能**: 将任何主题转化为高沉浸感的故事片段，并自我分析三大引擎的运用。

@@ -1,3 +1,11 @@
+---
+version: 1.0.0
+author: gg
+description: "嫉妒引擎工具。用于利用三角欲望理论重构场景张力。"
+created: 2025-11-20
+tags: ["tool", "writing", "jealousy"]
+---
+
 # 工具：嫉妒引擎 (The Jealousy Engine)
 
 **功能**: 利用“三角欲望”理论，将平庸场景转化为充满张力的心理剧。

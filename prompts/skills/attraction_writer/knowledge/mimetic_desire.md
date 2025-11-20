@@ -1,3 +1,11 @@
+---
+version: 1.0.0
+author: gg
+description: "欲望模仿论知识库。解释三角欲望和内部中介的机制。"
+created: 2025-11-20
+tags: ["knowledge", "mimetic_desire"]
+---
+
 # 欲望模仿论 (Mimetic Desire)
 
 **源典**: René Girard
