@@ -29,6 +29,7 @@ tags: ["skill", "writing", "attraction_engineering"]
 ## 可用工具 (Tools)
 *   **[运输大师 (The Transportation Master)](tools/transportation_master.md)**: 将主题转化为高沉浸感故事。
 *   **[嫉妒引擎 (The Jealousy Engine)](tools/jealousy_engine.md)**: 将平庸场景重构为地位战争。
+*   **[提示词锻造者 (The Prompt Forger)](tools/prompt_forger.md)**: 将用户意念锻造为深邃、自洽的 System Prompt。
 
 ## 使用指南
 当用户明确请求“更有吸引力”、“更深刻”或“使用守道者风格”时，调用此技能。

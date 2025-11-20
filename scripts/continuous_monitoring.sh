@@ -194,7 +194,7 @@ run_quality_audit() {
             log_metric "审查发现模块数: $module_count"
             
             # 检查是否有新的审查报告
-            local latest_report=$(ls -t outputs/simple_audit_*.md 2>/dev/null | head -1 || echo "")
+            local latest_report=$(ls -t outputs/audits/simple_audit_*.md 2>/dev/null | head -1 || echo "")
             if [ -n "$latest_report" ]; then
                 log_info "最新审查报告: $latest_report"
             fi

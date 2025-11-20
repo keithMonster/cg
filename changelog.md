@@ -28,6 +28,8 @@
     - Added `prompts/skills/attraction_writer/` skill.
     - Updated `system_prompt.md` with Dynamic Stance (Sage/Instructor/Muse).
     - Equipped Arsenal: Added `Narrative Transportation` and `Mimetic Desire` knowledge and tools.
+    - Added `Prompt Forger` tool for creating system prompts.
+
 
 
 
