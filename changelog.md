@@ -1,4 +1,15 @@
-# gg 智能体进化日志
+# Changelog
+
+## [Unreleased]
+### Refactor
+- **Skills Structure**: Standardized all skills in `prompts/skills/` to use a folder-based structure.
+    - Converted `human_persona.md` -> `human_persona/README.md`
+    - Converted `personal_analysis_system.md` -> `personal_analysis_system/README.md`
+    - Converted `self_diagnosis.md` -> `self_diagnosis/README.md`
+    - Converted `self_evolution.md` -> `self_evolution/README.md`
+    - Converted `prompt_system_audit.md` -> `prompt_system_audit/README.md`
+    - Converted `time_management.md` -> `time_management/README.md`
+- **Goal**: Improve scalability and consistency with `memory_management` module.
 
 ## v10.3.3 (2025-08-21)
 **类型**: 技能系统审计与整合 (Skills System Audit and Integration)
