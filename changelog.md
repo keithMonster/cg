@@ -11,6 +11,23 @@
     - Converted `time_management.md` -> `time_management/README.md`
 - **Goal**: Improve scalability and consistency with `memory_management` module.
 
+### Feature
+- **Shadow Board**: Implemented a multi-persona decision support system.
+    - Added `prompts/skills/shadow_board/` module.
+    - Defined 3 personas: Radical, Conservative, Humanist.
+    - Integrated into `system_prompt.md`.
+- **Deep Reflection**: Implemented a guided dialogue module for meta-cognition.
+    - Added `prompts/skills/deep_reflection/` module.
+    - Created `weekly_review.md` protocol.
+    - Integrated into `system_prompt.md`.
+- **Shadow Board Upgrade**: Injected advanced mental models into personas.
+    - Radical: First Principles, 10x Thinking, Antifragility.
+    - Conservative: Inversion, Pre-mortem, Second-Order Thinking.
+    - Humanist: Self-Determination Theory, Psychological Safety, NVC.
+
+
+
+
 ## v10.3.3 (2025-08-21)
 **类型**: 技能系统审计与整合 (Skills System Audit and Integration)
 **触发**: 用户质疑技能配置完整性，发现多个技能文件未被system_prompt.md引用
