@@ -5,7 +5,10 @@
 set -e
 
 PROMPTS_DIR="./prompts"
-REPORT_FILE="./outputs/simple_audit_$(date +%Y%m%d_%H%M%S).md"
+REPORT_FILE="./outputs/audits/simple_audit_$(date +%Y%m%d_%H%M%S).md"
+
+# 确保输出目录存在
+mkdir -p ./outputs/audits
 
 echo "# 提示词系统简化审查报告" > "$REPORT_FILE"
 echo "" >> "$REPORT_FILE"
