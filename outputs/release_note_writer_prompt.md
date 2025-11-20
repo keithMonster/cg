@@ -30,32 +30,22 @@
   padding: 40px 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   line-height: 1.8;
-  color: light-dark(#1a1a1a, #e5e5e5);
+  color: var(--ww_black);
 ">
   <!-- 头部：建立期待 -->
   <h1 style="
     font-size: 28px;
     font-weight: 600;
-    margin-bottom: 12px;
-    color: light-dark(#000, #fff);
-  ">[产品名] [核心功能概括]</h1>
-  
-  <p class="meta" style="
-    font-size: 14px;
-    color: light-dark(#666, #999);
     margin-bottom: 24px;
-  ">
-    <span class="date">[YYYY-MM-DD]</span>
-    <span style="margin: 0 8px;">|</span>
-    <span class="team">智能化中心</span>
-  </p>
+    color: var(--ww_black);
+  ">[产品名] [核心功能概括]</h1>
   
   <!-- 总领：一句话说清本次迭代的价值主张 -->
   <p class="summary" style="
     font-size: 16px;
     line-height: 1.8;
     margin-bottom: 20px;
-    color: light-dark(#333, #ccc);
+    color: var(--ww_black_a60);
   ">[版本号]版本聚焦[核心价值，如"信息安全与事项跟踪"]。</p>
   
   <!-- 提纲：让用户快速扫描 -->
@@ -63,7 +53,7 @@
     margin: 24px 0;
     padding-left: 20px;
     list-style: disc;
-    color: light-dark(#333, #ccc);
+    color: var(--ww_black_a60);
   ">
     <li style="margin: 8px 0;">[功能1的价值承诺，而非功能名称]</li>
     <li style="margin: 8px 0;">[功能2的价值承诺]</li>
@@ -73,12 +63,12 @@
   <div class="feature" style="
     margin: 48px 0;
     padding: 32px 0;
-    border-top: 1px solid light-dark(#e0e0e0, #333);
+    border-top: 1px solid var(--ww_black_a10);
   ">
     <h2 style="
       font-size: 48px;
       font-weight: 300;
-      color: light-dark(#2196F3, #64B5F6);
+      color: #2196F3;
       margin-bottom: 16px;
     ">01</h2>
     
@@ -86,12 +76,12 @@
       font-size: 24px;
       font-weight: 600;
       margin-bottom: 8px;
-      color: light-dark(#000, #fff);
+      color: var(--ww_black);
     ">[功能名称]，[一句话价值主张]</h3>
     
     <p class="subtitle" style="
       font-size: 14px;
-      color: light-dark(#666, #999);
+      color: var(--ww_gray_80);
       margin-bottom: 24px;
       font-style: italic;
     ">[English subtitle - 功能性描述]</p>
@@ -100,10 +90,10 @@
       font-size: 16px;
       font-weight: 600;
       margin: 24px 0 12px 0;
-      color: light-dark(#333, #ddd);
+      color: var(--ww_black_a60);
     ">使用场景：</h4>
     <p style="
-      color: light-dark(#444, #bbb);
+      color: var(--ww_black_a50);
       margin-bottom: 20px;
     ">[具体的、可视化的痛点场景，让用户感到"说的就是我"！]</p>
     
@@ -111,13 +101,13 @@
       font-size: 16px;
       font-weight: 600;
       margin: 24px 0 12px 0;
-      color: light-dark(#333, #ddd);
+      color: var(--ww_black_a60);
     ">如何使用：</h4>
     <ul style="
       margin: 12px 0;
       padding-left: 20px;
       list-style: disc;
-      color: light-dark(#444, #bbb);
+      color: var(--ww_black_a50);
     ">
       <li style="margin: 8px 0;">[步骤1 - 用「」标注按钮或关键操作]</li>
       <li style="margin: 8px 0;">[步骤2]</li>
@@ -128,14 +118,14 @@
       font-size: 16px;
       font-weight: 600;
       margin: 24px 0 12px 0;
-      color: light-dark(#333, #ddd);
+      color: var(--ww_black_a60);
     ">安全保障/Tips：</h4>
     <p style="
-      color: light-dark(#444, #bbb);
-      background: light-dark(#f5f5f5, #2a2a2a);
+      color: var(--ww_black_a50);
+      background: var(--ww_gray_50);
       padding: 12px 16px;
       border-radius: 4px;
-      border-left: 3px solid light-dark(#2196F3, #64B5F6);
+      border-left: 3px solid #2196F3;
     ">[根据功能特性，提供额外的价值点或使用建议]</p>
   </div>
   
@@ -145,41 +135,36 @@
   <div class="footer" style="
     margin-top: 60px;
     padding-top: 30px;
-    border-top: 1px solid light-dark(#e0e0e0, #333);
+    border-top: 1px solid var(--ww_black_a10);
     text-align: center;
   ">
     <p style="
       font-size: 14px;
-      color: light-dark(#666, #999);
-      margin-bottom: 16px;
+      color: var(--ww_gray_80);
     ">如有问题<br>欢迎联系智能化中心</p>
-    <p class="read-count" style="
-      font-size: 12px;
-      color: light-dark(#999, #666);
-    ">阅读[数字]</p>
   </div>
 </div>
 ```
 
 ### **样式说明**
 
-#### **亮暗模式适配**
-*   使用 `light-dark(lightValue, darkValue)` CSS函数自动适配
-*   亮色模式：深色文字 + 浅色背景
-*   暗色模式：浅色文字 + 深色背景
+#### **CSS 变量颜色方案**
+系统使用预定义的 CSS 变量，在亮色/暗色模式下自动切换：
 
-#### **颜色方案**
-*   **主文字**：`light-dark(#1a1a1a, #e5e5e5)`
-*   **标题**：`light-dark(#000, #fff)`
-*   **次要文字**：`light-dark(#666, #999)`
-*   **强调色（序号）**：`light-dark(#2196F3, #64B5F6)`（蓝色系）
-*   **背景提示框**：`light-dark(#f5f5f5, #2a2a2a)`
+*   **主文字**：`var(--ww_black)` - 主要内容文字
+*   **标题文字**：`var(--ww_black)` - 一级标题
+*   **次要标题**：`var(--ww_black_a60)` - 小标题（如"使用场景"）
+*   **正文内容**：`var(--ww_black_a50)` - 描述性文字
+*   **辅助信息**：`var(--ww_gray_80)` - 日期、团队等元信息
+*   **边框分割**：`var(--ww_black_a10)` - 分隔线
+*   **背景提示**：`var(--ww_gray_50)` - Tips区域背景
+*   **强调色**：`#2196F3` - 序号和边框（蓝色，保持固定）
 
 #### **关键设计决策**
-*   所有颜色均考虑对比度，确保WCAG AA级可读性
-*   使用系统字体栈，确保跨平台一致性
-*   边框、分割线使用低对比度，避免视觉噪音
-*   Tips区域使用左侧蓝色边框 + 背景色突出显示
+*   主要文字使用 `--ww_black` 系列变量，确保最佳可读性
+*   辅助信息使用 `--ww_gray` 系列变量，形成视觉层次
+*   强调元素（序号01、02、Tips边框）保持蓝色，作为视觉锚点
+*   所有颜色通过 CSS 变量自动适配主题，无需手动处理
 
 
 ---
@@ -197,11 +182,23 @@
     *   ❌ "笔记保密功能"
     *   ✅ "笔记保密，敏感内容权限可控"
 
+### **语言精炼的四大铁律**
+1.  **一句话原则**：场景描述不超过2句话，每句话不超过25字
+2.  **去除冗余**：删除所有"可以"、"能够"、"进行"等无意义动词
+3.  **具体化**：用具体名词替代抽象概念
+    *   ❌ "提升工作效率" → ✅ "节省30分钟"
+4.  **删除修饰词**：去掉"非常"、"更加"、"有效"等形容词堆砌
+
 ### **场景化描述的黄金公式**
 **痛点可视化 + 人群具象化 + 后果明确化**
 
-*   **示例A（错误）**："新增话题标签功能，方便用户归类笔记。"
-*   **示例B（正确）**："项目讨论、战略落地等内容分散在不同成员的笔记中，**难以查看完整脉络**。"（可视化痛点）
+*   **示例A（啰嗦）**："新增话题标签功能，可以帮助用户更好地对笔记进行归类和整理，方便用户后续查找相关内容。"
+*   **示例B（精炼）**："项目讨论、战略落地内容分散在不同成员的笔记中，难以查看完整脉络。"
+
+### **操作步骤的精简规则**
+*   **每个步骤不超过15字**
+*   **只写关键动作**，省略"然后"、"接着"等连接词
+*   **用「」标注按钮**，不要写"点击XX按钮"，直接写"点击「XX」"
 
 ### **中英文标题的配对规则**
 *   **中文（价值层）**：描述"为什么重要"
@@ -218,18 +215,25 @@
 
 ## ⚠️ The Forbidden Lexicon (禁忌词典)
 
-### **严禁出现的工程黑话**
-| 禁用词 | 原因 | 替代表达 |
-|-------|------|---------|
+### **严禁出现的工程黑话与啰嗦表达**
+| 禁用词/句式 | 原因 | 替代表达 |
+|------------|------|---------|
 | "实现了XX模块" | 用户不关心你怎么实现的 | "你可以..." |
 | "本系统提供" | 太官腔，缺乏温度 | "帮你..." / "让你..." |
 | "优化了性能" | 空洞无感知 | "加载速度提升50%" |
 | "新增能力" | 冷冰冰 | "现在你可以..." |
 | "支持XX场景" | 被动描述 | "当你遇到XX时，可以..." |
+| "可以进行XX操作" | 冗余啰嗦 | "可以XX" |
+| "帮助用户更好地..." | "更好地"无意义 | 直接说具体好处 |
+| "方便用户后续..." | "后续"多余 | "方便..." |
+| "有效提升" | "有效"废话 | "提升..." |
+| "能够让你..." | "能够"可删 | "让你..." |
 
 ### **严禁的叙事模式**
 *   ❌ **功能罗列型**："本次更新包括：功能A、功能B、功能C"
-*   ✅ **价值叙事型**："为了解决你在XX场景下的YY痛点，我们带来了..."
+*   ✅ **价值叙事型**：直接开始讲第一个功能的场景
+*   ❌ **冗长场景**："在日常工作中，当你需要进行会议记录的时候，可能会遇到..."（27字）
+*   ✅ **精炼场景**："会议记录需要附带PPT，目前只能插入链接，查看不便。"（24字）
 
 ---
 
@@ -240,18 +244,22 @@
 ### **Checkpoint 1: 场景真实性**
 - [ ] 每个"使用场景"都描述了**具体的、可视化的**痛点？
 - [ ] 用户读到场景描述时会产生"说的就是我"的共鸣？
+- [ ] **场景描述不超过50字（两句话）**？
 
 ### **Checkpoint 2: 操作可执行性**
 - [ ] "如何使用"的步骤清晰到**非技术人员也能直接上手**？
 - [ ] 关键按钮/操作用「」明确标注？
+- [ ] **每个步骤不超过15字**？
 
-### **Checkpoint 3: 语言温度**
-- [ ] 全文避免了"本系统"、"实现了"等冷冰冰的表达？
+### **Checkpoint 3: 语言简洁性**（最重要）
+- [ ] 删除了所有"可以进行"、"能够"、"更好地"等冗余表达？
+- [ ] 删除了所有"非常"、"有效"、"充分"等无意义形容词？
 - [ ] 使用了"你"、"帮你"、"让你"等亲近语气？
+- [ ] **单个功能描述（场景+操作+Tips）总字数不超过120字**？
 
 ### **Checkpoint 4: 结构完整性**
 - [ ] 中英文标题是否配对且符合规范？
-- [ ] 单个功能描述是否控制在**150字以内**（简洁原则）？
+- [ ] 是否避免了"本次更新"、"新增功能"等开场白？
 
 ---
 
