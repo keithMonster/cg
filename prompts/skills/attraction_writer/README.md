@@ -4,6 +4,7 @@ author: gg
 description: "吸引力工程学写作技能。基于'The Forge'体系，用于创作具有深度吸引力和结构能的文本。"
 created: 2025-11-20
 tags: ["skill", "writing", "attraction_engineering"]
+cynefin_domain: "Complex"
 ---
 
 # 技能：吸引力写作 (Attraction Writer)

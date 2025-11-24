@@ -1,9 +1,11 @@
+```
 ---
 version: 1.0.0
 author: gg
 description: "影子董事会 (Shadow Board) 技能主入口。协调三个AI人格进行多角度决策辩论。"
 created: 2025-11-20
 tags: ["skill", "shadow_board", "orchestration"]
+cynefin_domain: "Complex"
 ---
 
 # 技能：影子董事会 (Shadow Board)

@@ -1,8 +1,11 @@
+```
 ---
 version: 1.0.0
 author: gg (v9.2.4 evolution)
 description: "提示词系统审查与重构技能 - 系统性管理大规模提示词库的质量保证和模块化重构方案"
-created: 2025-08-14
+created: 2025-11-20
+tags: ["skill", "audit", "quality_control"]
+cynefin_domain: "Complicated"
 ---
 
 # 提示词系统审查与重构技能 (Prompt System Audit & Refactoring)

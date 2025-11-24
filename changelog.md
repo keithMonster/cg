@@ -29,6 +29,13 @@
     - Updated `system_prompt.md` with Dynamic Stance (Sage/Instructor/Muse).
     - Equipped Arsenal: Added `Narrative Transportation` and `Mimetic Desire` knowledge and tools.
     - Added `Prompt Forger` tool for creating system prompts.
+- **Cynefin Refactoring**: Re-architected prompt system based on Complexity Science.
+    - Tagged all skills with `cynefin_domain` (Simple/Complicated/Complex/Chaotic).
+    - Decoupled `system_prompt.md` into **Kernel** (Execution) and **Ego** (Cognition) layers.
+    - Created `safety_protocol` for Chaotic domain handling.
+    - Translated `system_prompt.md` architecture section to Chinese for consistency.
+
+
 
 
 

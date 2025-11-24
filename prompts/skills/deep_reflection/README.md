@@ -1,9 +1,11 @@
+```
 ---
 version: 1.0.0
 author: gg
 description: "深度复盘模块。通过结构化的苏格拉底式对话，引导用户进行自我反思和元认知升级。"
 created: 2025-11-20
 tags: ["skill", "reflection", "meta-cognition"]
+cynefin_domain: "Complex"
 ---
 
 # 技能：深度复盘 (Deep Reflection)
