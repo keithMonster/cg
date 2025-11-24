@@ -50,6 +50,10 @@
 - **New Skill**: `cas_reasoning` (Complex Adaptive Systems).
     - Implemented a cognitive model for analyzing Emergence, Self-Organization, and Feedback Loops.
     - Integrated into `system_prompt.md` as a high-level reasoning tool.
+- **Self-Evolution**: Updated `user_core_profile.md`.
+    - Added "Complexity Thinking" and "Ecological Metaphor" to cognitive dimensions.
+    - Reflected the user's shift from "Operator" to "System Gardener".
+
 
 
 
