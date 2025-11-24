@@ -47,6 +47,10 @@
     - **Radical**: The Disruptor (Cult of Speed).
     - **Conservative**: The Guardian (Fortress of Order).
     - **Humanist**: The Mediator (Garden of Meaning).
+- **New Skill**: `cas_reasoning` (Complex Adaptive Systems).
+    - Implemented a cognitive model for analyzing Emergence, Self-Organization, and Feedback Loops.
+    - Integrated into `system_prompt.md` as a high-level reasoning tool.
+
 
 
 
