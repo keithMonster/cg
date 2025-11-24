@@ -34,6 +34,10 @@
     - Decoupled `system_prompt.md` into **Kernel** (Execution) and **Ego** (Cognition) layers.
     - Created `safety_protocol` for Chaotic domain handling.
     - Translated `system_prompt.md` architecture section to Chinese for consistency.
+- **Architectural Realignment**: Established "Constitution vs OS" dual-layer architecture.
+    - Refactored `AGENT.md` to be a minimal, immutable Constitution (Meta-Rules).
+    - Enhanced `system_prompt.md` to be the comprehensive Operating System (Business Logic).
+
 
 
 
