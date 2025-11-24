@@ -37,6 +37,12 @@
 - **Architectural Realignment**: Established "Constitution vs OS" dual-layer architecture.
     - Refactored `AGENT.md` to be a minimal, immutable Constitution (Meta-Rules).
     - Enhanced `system_prompt.md` to be the comprehensive Operating System (Business Logic).
+    - **System Integrity**: Audited and fixed skill integration logic in `system_prompt.md`.
+- **Attraction Engineering Upgrade**: Reforged `deep_reflection/weekly_review.md`.
+    - Transformed from a linear checklist to an "Alchemical Rite" (Calcination -> Separation -> Coagulation).
+    - Applied Narrative Transportation principles to enhance user immersion and insight.
+
+
 
 
 
