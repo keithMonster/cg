@@ -53,6 +53,10 @@
 - **Self-Evolution**: Updated `user_core_profile.md`.
     - Added "Complexity Thinking" and "Ecological Metaphor" to cognitive dimensions.
     - Reflected the user's shift from "Operator" to "System Gardener".
+- **New Meta-Skill**: `agent_factory` (Phase 1: Simulator).
+    - Implemented a 3-stage pipeline: Architect (Topology) -> Forge (Persona) -> Toolmaker (Code).
+    - Integrated into `system_prompt.md` as a meta-system for generating Swarms.
+
 
 
 
