@@ -56,6 +56,11 @@
 - **New Meta-Skill**: `agent_factory` (Phase 1: Simulator).
     - Implemented a 3-stage pipeline: Architect (Topology) -> Forge (Persona) -> Toolmaker (Code).
     - Integrated into `system_prompt.md` as a meta-system for generating Swarms.
+- **Profile Calibration**: Deep update to `user_core_profile.md`.
+    - **Tech Stance**: Radical (Latest Architecture > Stability).
+    - **Vision**: "Super Individual" via "Joy of Creation".
+    - **3-Year Goals**: AI Education Assistant & AI Workday Autopilot.
+
 
 
 
