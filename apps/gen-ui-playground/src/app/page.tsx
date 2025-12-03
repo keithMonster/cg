@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { streamComponent } from "./actions";
+import { PizzaSlicer } from "@/components/pizza-slicer";
 
 export default function Home() {
   const [messages, setMessages] = useState<React.ReactNode[]>([]);
@@ -16,15 +17,31 @@ export default function Home() {
     const userMessage = <div key={messages.length} className="bg-muted p-4 rounded-xl mb-4 text-right self-end">{input}</div>;
     setMessages((prev) => [...prev, userMessage]);
     
-    const currentInput = input;
+    const currentInput = input.trim().toLowerCase();
     setInput("");
 
     try {
-      const response = await streamComponent(currentInput);
-      setMessages((prev) => [...prev, <div key={prev.length} className="mb-4">{response}</div>]);
+      // Simple pattern matching for pizza slicing
+      if (currentInput.includes("pizza") || currentInput.includes("slice")) {
+        const match = currentInput.match(/(\d+)/);
+        const slices = match ? parseInt(match[1]) : 4;
+        
+        setMessages((prev) => [...prev, 
+          <div key={prev.length} className="mb-4">
+            <PizzaSlicer initialSlices={slices} />
+          </div>
+        ]);
+      } else {
+        // For other queries, use AI
+        const textContent = await streamComponent(currentInput);
+        
+        setMessages((prev) => [...prev, 
+          <div key={prev.length} className="bg-card p-4 rounded-xl mb-4">{textContent}</div>
+        ]);
+      }
     } catch (error) {
       console.error(error);
-      setMessages((prev) => [...prev, <div key={prev.length} className="text-red-500">Error generating response. Check API Key.</div>]);
+      setMessages((prev) => [...prev, <div key={prev.length} className="text-red-500">Error: {String(error)}</div>]);
     }
   };
 
