@@ -1,11 +1,11 @@
 # 提示词系统简化审查报告
 
-**生成时间**: 2025-12-01 15:29:21
+**生成时间**: 2025-12-01 15:48:02
 **审查范围**: ./prompts
 
 ## 1. 模块统计
 
-- **总模块数**: 31
+- **总模块数**: 35
 
 ## 2. 元数据检查
 
@@ -16,6 +16,8 @@
 | code_tool.md | ✗ | ✗ | ✗ |
 | forge_persona.md | ✗ | ✗ | ✗ |
 | README.md | ✓ | ✓ | ✓ |
+| evolution_protocol.md | ✗ | ✗ | ✗ |
+| README.md | ✓ | ✓ | ✓ |
 | README.md | ✓ | ✓ | ✓ |
 | transportation_master.md | ✓ | ✓ | ✓ |
 | prompt_forger.md | ✓ | ✓ | ✓ |
@@ -23,6 +25,8 @@
 | README.md | ✓ | ✓ | ✓ |
 | mimetic_desire.md | ✓ | ✓ | ✓ |
 | narrative_transportation.md | ✓ | ✓ | ✓ |
+| scan.md | ✗ | ✗ | ✗ |
+| README.md | ✓ | ✓ | ✓ |
 | retrieve.md | ✓ | ✓ | ✓ |
 | advanced_memory_system.md | ✗ | ✗ | ✗ |
 | README.md | ✓ | ✓ | ✓ |
@@ -52,6 +56,8 @@
 | code_tool.md | 3/3 | 0/2 | 3/5 |
 | forge_persona.md | 3/3 | 0/2 | 3/5 |
 | README.md | 3/3 | 0/2 | 3/5 |
+| evolution_protocol.md | 3/3 | 0/2 | 3/5 |
+| README.md | 3/3 | 0/2 | 3/5 |
 | README.md | 4/3 | 1/2 | 4/5 |
 | transportation_master.md | 4/3 | 1/2 | 4/5 |
 | prompt_forger.md | 3/3 | 0/2 | 3/5 |
@@ -59,6 +65,8 @@
 | README.md | 3/3 | 0/2 | 3/5 |
 | mimetic_desire.md | 3/3 | 0/2 | 3/5 |
 | narrative_transportation.md | 3/3 | 0/2 | 3/5 |
+| scan.md | 3/3 | 0/2 | 3/5 |
+| README.md | 3/3 | 0/2 | 3/5 |
 | retrieve.md | 3/3 | 0/2 | 3/5 |
 | advanced_memory_system.md | 3/3 | 0/2 | 3/5 |
 | README.md | 2/3 | 0/2 | 2/5 |
@@ -77,7 +85,7 @@
 | README.md | 3/3 | 0/2 | 3/5 |
 | README.md | 4/3 | 1/2 | 4/5 |
 | README.md | 3/3 | 0/2 | 3/5 |
-| system_prompt.md | 4/3 | 1/2 | 4/5 |
+| system_prompt.md | 3/3 | 0/2 | 3/5 |
 
 ## 4. 改进建议
 
@@ -87,4 +95,4 @@
 - 实施定期质量检查机制
 
 ---
-*报告生成完成: 2025年12月 1日 星期一 15时29分21秒 CST*
+*报告生成完成: 2025年12月 1日 星期一 15时48分03秒 CST*
