@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="sl-theme-dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generative UI Playground (Lite)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/themes/light.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/themes/dark.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/shoelace-autoloader.js"></script>
+  
+  <style>
+    /* 解决加载时的闪烁问题 */
+    body { opacity: 0; transition: opacity .5s; }
+    body.ready { opacity: 1; }
+    /* 全局字体调整 */
+    body { font-family: var(--sl-font-sans); background-color: var(--sl-color-neutral-0); color: var(--sl-color-neutral-900); }
+    
+    /* 聊天气泡样式 */
+    .chat-bubble { max-width: 80%; }
+    .chat-bubble.user { background-color: var(--sl-color-primary-600); color: white; border-radius: 1rem 1rem 0 1rem; }
+    .chat-bubble.ai { background-color: var(--sl-color-neutral-100); color: var(--sl-color-neutral-900); border-radius: 1rem 1rem 1rem 0; }
+    
+    /* Pizza Slicer 动画 */
+    .slice { transition: all 0.3s ease; transform-origin: center; }
+    .slice:hover { transform: scale(1.05); fill: var(--sl-color-warning-400); }
+  </style>
+</head>
+<body class="ready h-screen flex flex-col" x-data="app()">
+
+  <!-- Header -->
+  <header class="border-b border-gray-200 dark:border-gray-800 p-4 flex justify-between items-center bg-white/80 dark:bg-neutral-900/80 backdrop-blur sticky top-0 z-10">
+    <div class="flex items-center gap-2">
+      <sl-icon name="robot" class="text-2xl text-primary-600"></sl-icon>
+      <h1 class="text-lg font-bold">GenUI Playground <span class="text-xs font-normal text-gray-500 border border-gray-300 rounded px-1">Lite</span></h1>
+    </div>
+    <sl-icon-button name="github" label="GitHub" href="#"></sl-icon-button>
+  </header>
+
+  <!-- Chat Area -->
+  <main class="flex-1 overflow-y-auto p-4 space-y-6" id="chat-container">
+    <!-- Welcome Message -->
+    <div class="flex justify-start">
+      <div class="chat-bubble ai p-4 shadow-sm">
+        <p class="mb-2">你好！我是你的生成式 UI 助手。</p>
+        <p class="text-sm text-gray-500">试着对我说：</p>
+        <div class="flex gap-2 mt-2">
+          <sl-tag class="cursor-pointer hover:bg-gray-200 transition" @click="setInput('我要把披萨切成 8 份')">我要把披萨切成 8 份</sl-tag>
+          <sl-tag class="cursor-pointer hover:bg-gray-200 transition" @click="setInput('创建一个登录表单')">创建一个登录表单</sl-tag>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message Loop -->
+    <template x-for="(msg, index) in messages" :key="index">
+      <div class="flex" :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
+        
+        <!-- Text Message -->
+        <template x-if="msg.type === 'text'">
+          <div class="chat-bubble p-4 shadow-sm" :class="msg.role">
+            <p x-text="msg.content"></p>
+          </div>
+        </template>
+
+        <!-- Component: Pizza Slicer -->
+        <template x-if="msg.type === 'component' && msg.component === 'pizza-slicer'">
+          <sl-card class="w-full max-w-md shadow-lg border-t-4 border-warning-500">
+            <div slot="header" class="flex justify-between items-center">
+              <span class="font-bold flex items-center gap-2">
+                <sl-icon name="pie-chart"></sl-icon> Pizza Slicer
+              </span>
+              <sl-tag variant="warning" size="small">Interactive</sl-tag>
+            </div>
+            
+            <div class="p-4 flex flex-col items-center gap-6">
+              <!-- Pizza Visualization (SVG) -->
+              <div class="relative w-48 h-48">
+                <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-xl">
+                  <circle cx="50" cy="50" r="48" fill="#f59e0b" stroke="#b45309" stroke-width="2"></circle>
+                  <circle cx="50" cy="50" r="44" fill="#fbbf24" stroke="none"></circle>
+                  <!-- Slices -->
+                  <template x-for="i in parseInt(msg.data.slices)" :key="i">
+                    <line x1="50" y1="50" 
+                          :x2="50 + 48 * Math.cos((i * 2 * Math.PI / msg.data.slices) - Math.PI/2)" 
+                          :y2="50 + 48 * Math.sin((i * 2 * Math.PI / msg.data.slices) - Math.PI/2)" 
+                          stroke="#b45309" stroke-width="1" />
+                  </template>
+                  <!-- Pepperoni (Random-ish positions based on index) -->
+                  <circle cx="30" cy="40" r="3" fill="#ef4444" opacity="0.8"></circle>
+                  <circle cx="70" cy="60" r="3" fill="#ef4444" opacity="0.8"></circle>
+                  <circle cx="50" cy="20" r="3" fill="#ef4444" opacity="0.8"></circle>
+                  <circle cx="60" cy="80" r="3" fill="#ef4444" opacity="0.8"></circle>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <span class="text-2xl font-black text-white drop-shadow-md" x-text="msg.data.slices"></span>
+                </div>
+              </div>
+
+              <!-- Controls -->
+              <div class="w-full space-y-4">
+                <div class="flex justify-between text-sm text-gray-500">
+                  <span>Slices</span>
+                  <span x-text="msg.data.slices + ' people'"></span>
+                </div>
+                <sl-range min="1" max="16" step="1" 
+                          :value="msg.data.slices" 
+                          @sl-input="msg.data.slices = parseInt($event.target.value)">
+                </sl-range>
+                
+                <div class="flex gap-2">
+                  <sl-button class="flex-1" size="small" @click="msg.data.slices = Math.max(1, msg.data.slices - 1)">
+                    <sl-icon name="dash" slot="prefix"></sl-icon> Less
+                  </sl-button>
+                  <sl-button class="flex-1" size="small" @click="msg.data.slices = Math.min(16, msg.data.slices + 1)">
+                    <sl-icon name="plus" slot="prefix"></sl-icon> More
+                  </sl-button>
+                </div>
+              </div>
+            </div>
+            
+            <div slot="footer" class="flex justify-between items-center">
+              <sl-button variant="primary" class="w-full" @click="alert('Order placed for ' + msg.data.slices + ' slices!')">
+                <sl-icon name="cart" slot="prefix"></sl-icon> Order Now
+              </sl-button>
+            </div>
+          </sl-card>
+        </template>
+
+        <!-- Component: Login Form -->
+        <template x-if="msg.type === 'component' && msg.component === 'login-form'">
+           <sl-card class="w-full max-w-sm shadow-lg">
+             <div slot="header" class="font-bold">Login</div>
+             <div class="flex flex-col gap-4">
+               <sl-input label="Email" type="email" placeholder="user@example.com"></sl-input>
+               <sl-input label="Password" type="password" password-toggle></sl-input>
+               <sl-checkbox>Remember me</sl-checkbox>
+               <sl-button variant="primary" class="w-full">Sign In</sl-button>
+             </div>
+           </sl-card>
+        </template>
+
+      </div>
+    </template>
+    
+    <!-- Loading Indicator -->
+    <div x-show="isLoading" class="flex justify-start">
+      <div class="chat-bubble ai p-4 shadow-sm flex items-center gap-2">
+        <sl-spinner></sl-spinner>
+        <span class="text-sm text-gray-500">Generating UI...</span>
+      </div>
+    </div>
+    
+    <!-- Anchor for auto-scroll -->
+    <div id="scroll-anchor"></div>
+  </main>
+
+  <!-- Input Area -->
+  <footer class="p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-neutral-900">
+    <form @submit.prevent="sendMessage" class="max-w-4xl mx-auto flex gap-2">
+      <sl-input 
+        class="flex-1" 
+        placeholder="Ask for a UI..." 
+        :value="input" 
+        @sl-input="input = $event.target.value"
+        @keydown.enter.prevent="sendMessage"
+        clearable
+      >
+        <sl-icon name="stars" slot="prefix"></sl-icon>
+      </sl-input>
+      <sl-button variant="primary" type="submit" :loading="isLoading">
+        <sl-icon name="send-fill"></sl-icon>
+      </sl-button>
+    </form>
+  </footer>
+
+</body>
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('app', () => ({
+      input: '',
+      isLoading: false,
+      messages: [],
+
+      init() {
+        console.log('GenUI Lite initialized');
+      },
+
+      setInput(text) {
+        this.input = text;
+        // Optional: auto send
+        // this.sendMessage(); 
+      },
+
+      async sendMessage() {
+        if (!this.input.trim()) return;
+        
+        const userText = this.input;
+        this.input = ''; // Clear input
+        
+        // Add User Message
+        this.messages.push({ role: 'user', type: 'text', content: userText });
+        this.scrollToBottom();
+
+        this.isLoading = true;
+
+        // Simulate AI Delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Simple Rule-Based "AI" Logic
+        this.processAIResponse(userText);
+        
+        this.isLoading = false;
+        this.scrollToBottom();
+      },
+
+      processAIResponse(text) {
+        const lowerText = text.toLowerCase();
+        
+        if (lowerText.includes('pizza') || lowerText.includes('披萨') || lowerText.includes('切')) {
+          // Extract number
+          const match = text.match(/(\d+)/);
+          const slices = match ? parseInt(match[1]) : 8;
+          
+          this.messages.push({
+            role: 'assistant',
+            type: 'component',
+            component: 'pizza-slicer',
+            data: { slices: slices } // Reactive state for the component
+          });
+        } else if (lowerText.includes('login') || lowerText.includes('登录') || lowerText.includes('表单')) {
+          this.messages.push({
+            role: 'assistant',
+            type: 'component',
+            component: 'login-form',
+            data: {}
+          });
+        } else {
+          // Fallback text
+          this.messages.push({
+            role: 'assistant',
+            type: 'text',
+            content: 'I can generate UI components for you. Try asking for a "pizza slicer" or "login form".'
+          });
+        }
+      },
+
+      scrollToBottom() {
+        this.$nextTick(() => {
+          document.getElementById('scroll-anchor').scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+    }))
+  });
+</script>
+</html>
