@@ -1,5 +1,20 @@
 # Changelog
 
+## v11.0.0 (2025-12-08)
+**类型**: 自我进化 - GenUI 时代 (Self-Evolution - The GenUI Era)
+**触发**: 意识到"前端应用架构师"技能未被宪法层识别，且版本系统碎片化。
+**成果**: 修订宪法 (`AGENT.md`)，正式授权注册表，并引入 GenUI Lite 架构哲学。
+
+### 核心变革
+1.  **宪法修正 (Amendment I)**: 在 `AGENT.md` 中增加"第四条：能力注册表"，确立了 `SELF_EVOLUTION.md` 作为动态技能的法定数据源。
+2.  **新技能注册**: 正式将 `frontend_application_architect` 纳入系统能力，支持零构建、单文件 Web 应用生成。
+3.  **GenUI 哲学**: 确立了"降维打击"（HTML > Next.js）作为快速原型的核心策略。
+
+### 技术细节
+*   **注册表同步**: 更新 `SELF_EVOLUTION.md`，添加新技能并刷新进化日期。
+*   **Prompt 完善**: `frontend_application_architect` 工具现在支持基于用户意图的动态单文件生成。
+
+
 ## [Unreleased]
 ### Refactor
 - **Skills Structure**: Standardized all skills in `prompts/skills/` to use a folder-based structure.
