@@ -8,16 +8,17 @@
 
 - 总模块数: 35[0m
 - 元数据完整性: 77% (27/35)[0m
-- 平均文件大小: 2343 字节[0m
-- 最近7天更新的模块: 9[0m
+- 平均文件大小: 2343 字节 [0m
+- 最近 7 天更新的模块: 9[0m
 - 未提交变更: 8[0m
 - 最后提交: 502e7f0 feat: Generate latest monitoring and audit reports, and update changelog, user profile, and monitoring log.[0m
 
 ## 最近活动
 
-### Git状态
+### Git 状态
+
 ```
- M AGENT.md
+ M AGENTS.md
  M outputs/audits/latest_audit.md
  M outputs/monitoring/latest_monitoring_report.md
  M outputs/monitoring/monitoring.log
@@ -28,6 +29,7 @@
 ```
 
 ### 最近提交
+
 ```
 502e7f0 feat: Generate latest monitoring and audit reports, and update changelog, user profile, and monitoring log.
 d10201c chore: Delete generated audit and monitoring reports and update their respective generation scripts.
@@ -48,4 +50,5 @@ b478975 feat: Introduce new agent factory skills and universal PPT generator pro
 - 及时提交重要变更
 
 ---
-*报告由持续监控系统自动生成*
+
+_报告由持续监控系统自动生成_
