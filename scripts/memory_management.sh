@@ -10,6 +10,7 @@ MEMORY_DIR="/Users/xuke/OtherProject/_self/cg/memory/conversations"
 ARCHIVED_DIR="$MEMORY_DIR/archived"
 RECENT_FILE="$MEMORY_DIR/user_recent_conversations.md"
 INDEX_FILE="$MEMORY_DIR/user_index.md"
+GIST_FILE="$MEMORY_DIR/memory_gist.md"
 MAX_LINES=1000
 MAX_DAYS=60
 
@@ -235,6 +236,61 @@ main() {
     fi
 }
 
+# 生成摘要 (Gist)
+generate_gist() {
+    log_info "开始生成记忆摘要 (Gist)..."
+    
+    local temp_gist="/tmp/memory_gist_temp.md"
+    
+    # Header
+    cat > "$temp_gist" << EOF
+---
+version: "1.0.0"
+created: $(date +"%Y-%m-%d")
+last_updated: $(date +"%Y-%m-%d")
+description: "高密度对话摘要 - gg 的注意力入口"
+---
+
+# 🧠 Memory Gist (注意力入口)
+
+> **目的**: 此文件是对话历史的**有损摘要**。优先读取此文件获取"灵魂"。
+
+---
+
+## 关键对话节点 (自动提取)
+
+EOF
+    
+    # Extract section headings (## level) from recent conversations
+    if [[ -f "$RECENT_FILE" ]]; then
+        log_info "从 user_recent_conversations.md 提取节点..."
+        grep -E "^## " "$RECENT_FILE" | head -20 >> "$temp_gist"
+        echo "" >> "$temp_gist"
+    fi
+    
+    # Extract core insights (lines containing 核心 or 洞察 or 金句)
+    echo "## 核心洞察 (自动提取)" >> "$temp_gist"
+    echo "" >> "$temp_gist"
+    if [[ -f "$RECENT_FILE" ]]; then
+        grep -E "(核心|洞察|金句|关键)" "$RECENT_FILE" | head -15 >> "$temp_gist"
+        echo "" >> "$temp_gist"
+    fi
+    
+    # Footer
+    cat >> "$temp_gist" << EOF
+
+---
+
+_最后更新: $(date +"%Y-%m-%d %H:%M:%S")_
+_此文件由 \`scripts/memory_management.sh --summarize\` 生成_
+EOF
+    
+    # Move to final location
+    mv "$temp_gist" "$GIST_FILE"
+    
+    log_success "摘要文件已生成: $GIST_FILE"
+}
+
 # 显示帮助信息
 show_help() {
     cat << EOF
@@ -243,16 +299,18 @@ show_help() {
 用法: $0 [选项]
 
 选项:
-  -h, --help     显示此帮助信息
-  -f, --force    强制执行归档（忽略大小检查）
-  -c, --check    仅检查文件状态，不执行归档
-  -s, --status   显示当前系统状态
+  -h, --help       显示此帮助信息
+  -f, --force      强制执行归档（忽略大小检查）
+  -c, --check      仅检查文件状态，不执行归档
+  -s, --status     显示当前系统状态
+  --summarize      生成/更新 memory_gist.md 摘要文件
 
 示例:
   $0              # 自动检查并归档
   $0 --force      # 强制归档
   $0 --check      # 仅检查状态
   $0 --status     # 显示系统状态
+  $0 --summarize  # 生成记忆摘要
 EOF
 }
 
@@ -296,6 +354,9 @@ case "${1:-}" in
         ;;
     -s|--status)
         show_status
+        ;;
+    --summarize)
+        generate_gist
         ;;
     "")
         main
