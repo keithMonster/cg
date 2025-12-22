@@ -26,7 +26,7 @@
 - **Shoelace**: UI 组件库。使用 v2.12.0 CDN。
 - **Tailwind CSS**: 必须使用 v4 浏览器端 CDN。
 - **Supabase**: 持久化层。使用 v2 CDN。
-- **Ouroboros Design System (ODS)**: 必须在 `<style>` 中初始化 [DESIGN_SYSTEM.md](file:///Users/xuke/OtherProject/_self/cg/docs/DESIGN_SYSTEM.md) 定义的 Tokens。
+- **Ouroboros Design System (ODS)**: 必须在 `<style>` 中初始化 [DESIGN_SYSTEM.md](file:///Users/xuke/OtherProject/_self/cg/apps/docs/DESIGN_SYSTEM.md) 定义的 Tokens。
 
 ### 4. 通用代码骨架 (Generic Code Skeleton)
 
