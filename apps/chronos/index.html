@@ -393,13 +393,13 @@
                     }
                 },
 
-                selectTask(task) {
+                async selectTask(task) {
                     if (this.isRunning) {
-                        // 如果点击的是当前正在运行的任务，不做任何操作（或者可以暂停？）
+                        // 如果点击的是当前正在运行的任务，不做任何操作
                         if (this.selectedTask && this.selectedTask.id === task.id) return;
 
-                        // 切换任务：先停止当前
-                        this.stopTimer();
+                        // 切换任务：先停止当前（必须 await，否则异步结算会置空新的 selection）
+                        await this.stopTimer();
                     }
 
                     this.selectedTask = task;
@@ -408,7 +408,7 @@
                     this.toggleTimer();
 
                     // Optional: Scroll to timer or highlight?
-                    // this.activeTab = 'tasks'; 
+                    // this.activeTab = 'tasks';
                 },
 
                 // Timer Methods
