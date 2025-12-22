@@ -38,7 +38,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>App Name | Ouroboros Satellite</title>
 
-    <!-- UI Frameworks (Shoelace + Tailwind v4) -->
+    <!-- 1. Ouroboros Kernel (Skin) -->
+    <link rel="stylesheet" href="../../_shared/ods.css" />
+
+    <!-- 2. UI Frameworks (Shoelace + Tailwind v4) -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/themes/dark.css"
@@ -49,7 +52,7 @@
       rel="stylesheet"
     />
 
-    <!-- Framework Logic (Alpine + Supabase + Shoelace Autoloader) -->
+    <!-- 3. Framework Logic (Alpine + Supabase + Shoelace Autoloader) -->
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
@@ -60,84 +63,35 @@
       src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/shoelace-autoloader.js"
     ></script>
 
-    <style>
-      :root {
-        /* Ouroboros Design System (ODS) v1.0 Tokens */
-        --ods-bg: #020617;
-        --ods-surface: rgba(255, 255, 255, 0.03);
-        --ods-border: rgba(255, 255, 255, 0.1);
-        --ods-primary: #6366f1;
-        --ods-secondary: #a855f7;
-        --ods-font-display: 'Outfit', sans-serif;
-        --ods-font-body: 'Inter', sans-serif;
-        --ods-blur: blur(12px);
-        --ods-glass-hover: rgba(255, 255, 255, 0.08);
-      }
-      body {
-        background: var(--ods-bg);
-        color: #f8fafc;
-        font-family: var(--ods-font-body);
-        min-height: 100vh;
-        opacity: 0;
-        transition: opacity 0.5s;
-      }
-      body.ready {
-        opacity: 1;
-      }
-      h1,
-      h2,
-      h3 {
-        font-family: var(--ods-font-display);
-      }
-      .glass-card {
-        background: var(--ods-surface);
-        backdrop-filter: var(--ods-blur);
-        border: 1px solid var(--ods-border);
-        border-radius: 1.5rem;
-        transition: all 0.3s ease;
-      }
-      .glass-card:hover {
-        border-color: var(--ods-primary);
-        background: var(--ods-glass-hover);
-      }
-      .gradient-text {
-        background: linear-gradient(135deg, #fff 40%, rgba(255, 255, 255, 0.4));
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-    </style>
+    <!-- 4. Ouroboros Kernel (Brain) -->
+    <script src="../../_shared/satellite.js"></script>
   </head>
-  <body x-data="app()" class="ready">
-    <main class="p-6">
-      <!-- UI Here (Use sl- components where appropriate) -->
+  <body x-data="Satellite({ title: 'New App' })" class="ready">
+    <!-- Standard Nav -->
+    <nav
+      class="p-6 flex justify-between items-center border-b border-white/5 sticky top-0 bg-[#020617]/80 backdrop-blur-md z-50"
+    >
+      <a
+        href="../../index.html"
+        class="text-slate-400 hover:text-white transition-colors flex items-center gap-2"
+      >
+        <sl-icon name="arrow-left"></sl-icon> Portal
+      </a>
+      <h1
+        class="text-xl font-black gradient-text tracking-tighter uppercase"
+        x-text="appTitle"
+      ></h1>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-6">
+      <!-- UI Here -->
     </main>
 
     <script>
-      // Ouroboros 标准：从“本地保险箱” (Local Vault) 提取配置
-      const ODS_CONFIG = {
-        url:
-          localStorage.getItem('sb_url') ||
-          'https://pscrjxtqukzivnuiqwah.supabase.co',
-        key: localStorage.getItem('sb_key') || '',
-      };
-
-      // 初始化 Supabase 客户端 (如无秘钥则为 null)
-      const supabaseClient =
-        ODS_CONFIG.url && ODS_CONFIG.key
-          ? supabase.createClient(ODS_CONFIG.url, ODS_CONFIG.key)
-          : null;
-
+      // Business Logic
+      // Access global `sbClient` for DB operations.
       document.addEventListener('alpine:init', () => {
-        Alpine.data('app', () => ({
-          title: 'Premium Satellite App',
-          db: supabaseClient,
-          async init() {
-            console.log(
-              'App initialized with OSF (Ouroboros Standard Framework)'
-            );
-          },
-        }));
+        // Extend the Satellite mixin if needed, or just specific components
       });
     </script>
   </body>

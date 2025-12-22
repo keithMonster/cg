@@ -5,71 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chronos | Ouroboros Work Log</title>
-    <!-- Dependencies -->
+
+    <!-- 1. Ouroboros Kernel (Skin) -->
+    <link rel="stylesheet" href="../../_shared/ods.css">
+
+    <!-- 2. UI Frameworks -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/themes/dark.css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;500;800&display=swap"
         rel="stylesheet">
 
+    <!-- 3. Framework Logic -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module"
         src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/shoelace-autoloader.js"></script>
 
+    <!-- 4. Ouroboros Kernel (Brain) -->
+    <script src="../../_shared/satellite.js"></script>
+
     <style>
-        :root {
-            --ods-bg: #020617;
-            --ods-surface: rgba(255, 255, 255, 0.03);
-            --ods-border: rgba(255, 255, 255, 0.1);
-            --ods-primary: #6366f1;
-            --ods-secondary: #a855f7;
-            --ods-font-display: 'Outfit', sans-serif;
-            --ods-font-body: 'Inter', sans-serif;
-            --ods-blur: blur(12px);
-        }
-
-        body {
-            background: var(--ods-bg);
-            color: #f8fafc;
-            font-family: var(--ods-font-body);
-            min-height: 100vh;
-            overflow-x: hidden;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        body.ready {
-            opacity: 1;
-        }
-
-        h1,
-        h2,
-        h3 {
-            font-family: var(--ods-font-display);
-        }
-
-        .glass-card {
-            background: var(--ods-surface);
-            backdrop-filter: var(--ods-blur);
-            border: 1px solid var(--ods-border);
-            border-radius: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .glass-card:hover {
-            border-color: var(--ods-primary);
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #fff 40%, rgba(255, 255, 255, 0.4));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Shoelace Overrides */
+        /* App Specific Styles */
         sl-input::part(base) {
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(255, 255, 255, 0.1);
@@ -95,20 +52,6 @@
 
         sl-tab[active]::part(base) {
             color: white;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--ods-border);
-            border-radius: 10px;
         }
 
         .timer-ring {
@@ -268,17 +211,25 @@
     </main>
 
     <script>
-        // Local Vault Pattern
-        const ODS_CONFIG = {
-            url: localStorage.getItem('sb_url') || 'https://pscrjxtqukzivnuiqwah.supabase.co',
-            key: localStorage.getItem('sb_key') || 'sb_publishable_mDgxbxhzYoG1025nVLffXw__5MiMoCK'
-        };
-
-        const sbClient = (ODS_CONFIG.url && ODS_CONFIG.key) ? supabase.createClient(ODS_CONFIG.url, ODS_CONFIG.key) : null;
-
         document.addEventListener('alpine:init', () => {
             Alpine.data('app', () => ({
-                dbState: sbClient ? 'loading' : 'offline',
+                ...Satellite({
+                    title: 'Chronos | Ouroboros Work Log',
+                    async init() {
+                        if (window.sbClient) {
+                            await this.syncData();
+                        } else {
+                            this.dbState = 'offline';
+                        }
+                        // 启动恢复逻辑：检查是否有未完成的“心跳”
+                        this.recoverLastSession();
+
+                        window.addEventListener('beforeunload', () => {
+                            if (this.isRunning) this.persistTimerState();
+                        });
+                    }
+                }),
+
                 activeTab: 'tasks',
 
                 // Tasks State
@@ -344,8 +295,8 @@
                                     ended_at: session.lastTick
                                 };
 
-                                if (sbClient) {
-                                    await sbClient.from('chronos_logs').insert([recoveredLog]);
+                                if (window.sbClient) {
+                                    await window.sbClient.from('chronos_logs').insert([recoveredLog]);
                                     await this.syncData();
                                 } else {
                                     this.logs.unshift({ ...recoveredLog, id: Date.now() });
@@ -369,11 +320,11 @@
                     this.dbState = 'loading';
                     try {
                         // Fetch Tasks
-                        let { data: ts } = await sbClient.from('chronos_tasks').select('*').order('created_at', { ascending: false });
+                        let { data: ts } = await window.sbClient.from('chronos_tasks').select('*').order('created_at', { ascending: false });
                         this.tasks = ts || [];
 
                         // Fetch Logs
-                        let { data: ls } = await sbClient.from('chronos_logs').select('*').order('started_at', { ascending: false });
+                        let { data: ls } = await window.sbClient.from('chronos_logs').select('*').order('started_at', { ascending: false });
                         this.logs = ls || [];
 
                         this.dbState = 'online';
@@ -392,8 +343,8 @@
                     if (!this.newTaskTitle.trim()) return;
                     const newTask = { title: this.newTaskTitle, is_completed: false };
 
-                    if (sbClient) {
-                        const { data, error } = await sbClient.from('chronos_tasks').insert([newTask]).select();
+                    if (window.sbClient) {
+                        const { data, error } = await window.sbClient.from('chronos_tasks').insert([newTask]).select();
                         if (data) this.tasks.unshift(data[0]);
                     } else {
                         this.tasks.unshift({ ...newTask, id: Date.now() });
@@ -402,14 +353,14 @@
                 },
 
                 async deleteTask(id) {
-                    if (sbClient) await sbClient.from('chronos_tasks').delete().eq('id', id);
+                    if (window.sbClient) await window.sbClient.from('chronos_tasks').delete().eq('id', id);
                     this.tasks = this.tasks.filter(t => t.id !== id);
                     if (this.selectedTask && this.selectedTask.id === id) this.stopTimer();
                 },
 
                 async toggleTaskStatus(task) {
                     task.is_completed = !task.is_completed;
-                    if (sbClient) await sbClient.from('chronos_tasks').update({ is_completed: task.is_completed }).eq('id', task.id);
+                    if (window.sbClient) await window.sbClient.from('chronos_tasks').update({ is_completed: task.is_completed }).eq('id', task.id);
                     if (task.is_completed && this.selectedTask && this.selectedTask.id === task.id) {
                         this.stopTimer();
                     }
@@ -457,8 +408,8 @@
                             ended_at: endedAt.toISOString()
                         };
 
-                        if (sbClient) {
-                            const { data } = await sbClient.from('chronos_logs').insert([newLog]).select();
+                        if (window.sbClient) {
+                            const { data } = await window.sbClient.from('chronos_logs').insert([newLog]).select();
                             if (data) this.logs.unshift(data[0]);
                         } else {
                             this.logs.unshift({ ...newLog, id: Date.now() });
@@ -483,7 +434,7 @@
                 },
 
                 async deleteLog(id) {
-                    if (sbClient) await sbClient.from('chronos_logs').delete().eq('id', id);
+                    if (window.sbClient) await window.sbClient.from('chronos_logs').delete().eq('id', id);
                     this.logs = this.logs.filter(l => l.id !== id);
                 },
 
