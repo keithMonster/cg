@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="sl-theme-dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chronos | Ouroboros Work Log</title>
     <!-- Dependencies -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/themes/dark.css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;500;800&display=swap"
         rel="stylesheet">
+
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/shoelace-autoloader.js"></script>
 
     <style>
         :root {
@@ -31,6 +35,12 @@
             font-family: var(--ods-font-body);
             min-height: 100vh;
             overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        body.ready {
+            opacity: 1;
         }
 
         h1,
@@ -59,6 +69,34 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* Shoelace Overrides */
+        sl-input::part(base) {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+
+        sl-input::part(input) {
+            color: white;
+        }
+
+        sl-tab-group::part(tabs) {
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+        }
+
+        sl-tab::part(base) {
+            color: #64748b;
+            font-weight: 600;
+            font-family: var(--ods-font-display);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.75rem;
+        }
+
+        sl-tab[active]::part(base) {
+            color: white;
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
@@ -81,23 +119,18 @@
     </style>
 </head>
 
-<body x-data="app()">
+<body x-data="app()" class="ready">
     <nav
         class="p-6 flex justify-between items-center border-b border-white/5 sticky top-0 bg-[#020617]/80 backdrop-blur-md z-50">
         <a href="../../index.html" class="text-slate-400 hover:text-white transition-colors flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
-                </path>
-            </svg>
+            <sl-icon name="arrow-left"></sl-icon>
             Portal
         </a>
         <div class="flex items-center gap-4">
-            <template x-if="dbState === 'loading'"><span
-                    class="text-xs text-yellow-500 animate-pulse uppercase">Syncing...</span></template>
-            <template x-if="dbState === 'offline'"><span
-                    class="text-xs text-red-500 uppercase">Offline</span></template>
-            <template x-if="dbState === 'online'"><span class="text-xs text-green-500 uppercase">Cloud
-                    Active</span></template>
+            <template x-if="dbState === 'loading'"><sl-badge variant="warning" pill
+                    pulse>Syncing...</sl-badge></template>
+            <template x-if="dbState === 'offline'"><sl-badge variant="neutral" pill>Offline</sl-badge></template>
+            <template x-if="dbState === 'online'"><sl-badge variant="success" pill>Cloud Active</sl-badge></template>
             <h2 class="text-xl font-black gradient-text tracking-tighter uppercase">Chronos</h2>
         </div>
     </nav>
@@ -110,22 +143,19 @@
             <!-- Task Creation -->
             <section class="glass-card p-6">
                 <div class="flex gap-4">
-                    <input type="text" x-model="newTaskTitle" @keydown.enter="addTask" placeholder="有什么新计划？"
-                        class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 focus:bg-white/10 transition-all">
-                    <button @click="addTask"
-                        class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold transition-all">添加任务</button>
+                    <sl-input class="flex-1" placeholder="有什么新计划？" :value="newTaskTitle"
+                        @sl-input="newTaskTitle = $event.target.value" @keydown.enter="addTask" clearable>
+                        <sl-icon name="list-task" slot="prefix"></sl-icon>
+                    </sl-input>
+                    <sl-button variant="primary" @click="addTask">添加任务</sl-button>
                 </div>
             </section>
 
-            <!-- Section Tabs -->
-            <div class="flex gap-4 border-b border-white/5">
-                <button @click="activeTab = 'tasks'"
-                    :class="activeTab === 'tasks' ? 'text-white border-b-2 border-indigo-500' : 'text-slate-500'"
-                    class="pb-2 px-4 transition-all uppercase tracking-widest text-xs font-bold">任务列表</button>
-                <button @click="activeTab = 'logs'"
-                    :class="activeTab === 'logs' ? 'text-white border-b-2 border-indigo-500' : 'text-slate-500'"
-                    class="pb-2 px-4 transition-all uppercase tracking-widest text-xs font-bold">工作看板</button>
-            </div>
+            <!-- Navigation Tabs -->
+            <sl-tab-group @sl-tab-show="activeTab = $event.detail.name">
+                <sl-tab slot="nav" panel="tasks">任务列表</sl-tab>
+                <sl-tab slot="nav" panel="logs">工作看板</sl-tab>
+            </sl-tab-group>
 
             <!-- Task List Content -->
             <div x-show="activeTab === 'tasks'" class="space-y-4" x-transition>
@@ -139,31 +169,16 @@
                             <button @click="toggleTaskStatus(task)"
                                 class="w-6 h-6 rounded-full border-2 border-indigo-500/50 flex items-center justify-center transition-all"
                                 :class="task.is_completed ? 'bg-indigo-500 border-indigo-500' : 'hover:border-indigo-400'">
-                                <svg x-show="task.is_completed" class="w-3 h-3 text-white" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg>
+                                <sl-icon x-show="task.is_completed" name="check" class="text-white text-xs"></sl-icon>
                             </button>
                             <span x-text="task.title" :class="task.is_completed ? 'line-through text-slate-500' : ''"
                                 class="text-lg font-medium"></span>
                         </div>
                         <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button @click="selectTask(task)" x-show="!task.is_completed"
-                                class="p-2 hover:text-indigo-400 text-slate-500">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z">
-                                    </path>
-                                </svg>
-                            </button>
-                            <button @click="deleteTask(task.id)" class="p-2 hover:text-red-400 text-slate-500">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                    </path>
-                                </svg>
-                            </button>
+                            <sl-icon-button name="play-fill" label="Start Task" class="text-xl text-indigo-400"
+                                @click="selectTask(task)" x-show="!task.is_completed"></sl-icon-button>
+                            <sl-icon-button name="trash" label="Delete Task" class="text-xl text-red-400"
+                                @click="deleteTask(task.id)"></sl-icon-button>
                         </div>
                     </div>
                 </template>
@@ -172,10 +187,9 @@
             <!-- Logs Board Content -->
             <div x-show="activeTab === 'logs'" class="space-y-6" x-transition>
                 <div class="flex items-center justify-between mb-4">
-                    <input type="date" x-model="filterDate"
-                        class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm outline-none focus:border-indigo-500">
-                    <span class="text-xs text-slate-500 uppercase font-bold"
-                        x-text="'Total Duration: ' + formatTime(totalDaySeconds)"></span>
+                    <sl-input type="date" :value="filterDate" @sl-input="filterDate = $event.target.value" size="small"
+                        class="w-40"></sl-input>
+                    <sl-badge variant="neutral" x-text="'Total: ' + formatTime(totalDaySeconds)"></sl-badge>
                 </div>
                 <div class="space-y-2">
                     <template x-for="log in filteredLogs" :key="log.id">
@@ -183,31 +197,23 @@
                             :style="'border-left-color: ' + (log.task_id ? 'var(--ods-primary)' : '#475569')">
                             <div>
                                 <div class="flex items-center gap-2">
-                                    <span class="text-xs font-mono text-slate-500" x-text="getTimeRange(log)"></span>
+                                    <sl-badge variant="neutral" x-text="getTimeRange(log)" size="small"></sl-badge>
                                     <span class="font-bold" x-text="log.activity"></span>
                                 </div>
-                                <div class="text-xs text-slate-500 flex items-center gap-2 mt-1">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
+                                <div class="text-sm text-slate-400 flex items-center gap-2 mt-2">
+                                    <sl-icon name="clock"></sl-icon>
                                     <span x-text="formatTime(log.duration)"></span>
                                 </div>
                             </div>
-                            <button @click="deleteLog(log.id)"
-                                class="p-2 hover:text-red-400 text-slate-500 transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            </button>
+                            <sl-icon-button name="x-lg" label="Delete Log" class="text-red-400"
+                                @click="deleteLog(log.id)"></sl-icon-button>
                         </div>
                     </template>
                 </div>
             </div>
         </div>
 
-        <!-- Right Column: Active Timer -->
+        <!-- Right Column: Active Pulse -->
         <div class="lg:col-span-4 space-y-8">
             <section class="glass-card p-8 sticky top-24 text-center">
                 <h3 class="text-xs font-black uppercase tracking-[0.2em] text-indigo-400 mb-8">Active Pulse</h3>
@@ -224,8 +230,8 @@
                     <div class="absolute flex flex-col items-center">
                         <span class="text-4xl font-black tabular-nums tracking-tighter"
                             x-text="formatTime(timerSeconds)"></span>
-                        <span class="text-[10px] text-slate-500 uppercase tracking-widest mt-1"
-                            x-text="isRunning ? 'Running' : 'Paused'"></span>
+                        <sl-badge pill variant="neutral" class="mt-2"
+                            x-text="isRunning ? 'Running' : 'Paused'"></sl-badge>
                     </div>
                 </div>
 
@@ -237,21 +243,23 @@
                         </template>
                         <template x-if="selectedTask">
                             <div>
-                                <span class="text-xs text-indigo-400 uppercase font-bold block mb-1">Focusing on</span>
-                                <span class="text-lg font-bold" x-text="selectedTask.title"></span>
+                                <sl-badge variant="primary" class="mb-2 uppercase tracking-widest text-[10px]">Thinking
+                                    about</sl-badge>
+                                <span class="text-lg font-bold block" x-text="selectedTask.title"></span>
                             </div>
                         </template>
                     </div>
 
                     <div class="flex gap-2">
-                        <button @click="toggleTimer" :disabled="!selectedTask"
-                            class="flex-1 bg-white text-slate-950 px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-slate-200 disabled:opacity-30 transition-all">
+                        <sl-button variant="default" class="flex-1" @click="toggleTimer" :disabled="!selectedTask">
+                            <sl-icon slot="prefix" :name="isRunning ? 'pause-fill' : 'play-fill'"></sl-icon>
                             <span x-text="isRunning ? 'Pause' : 'Start'"></span>
-                        </button>
-                        <button @click="stopTimer" :disabled="!isRunning && timerSeconds === 0"
-                            class="bg-red-500/20 text-red-400 px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-red-500 hover:text-white disabled:opacity-30 transition-all">
+                        </sl-button>
+                        <sl-button variant="danger" outline @click="stopTimer"
+                            :disabled="!isRunning && timerSeconds === 0">
+                            <sl-icon slot="prefix" name="stop-fill"></sl-icon>
                             Stop
-                        </button>
+                        </sl-button>
                     </div>
                 </div>
             </section>
