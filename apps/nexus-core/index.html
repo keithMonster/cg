@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Core | 系统核心控制台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #020617;
+            color: #f8fafc;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col items-center justify-center min-height-screen p-12 overflow-hidden">
+    <div class="max-w-4xl text-center space-y-8">
+        <div
+            class="inline-flex items-center px-6 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-bold animate-pulse">
+            CORE MODULE INITIALIZING...
+        </div>
+        <h1 class="text-7xl font-extrabold tracking-tighter">NEXUS CORE</h1>
+        <p class="text-xl text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
+            这是你的系统管理核心。目前正在构建中。很快你就能在这里直接调整宪法、审计记忆、并控制所有的数字资产。
+        </p>
+
+        <div class="pt-12">
+            <a href="../../index.html"
+                class="px-8 py-4 rounded-full bg-white text-slate-900 font-bold hover:bg-slate-200 transition-colors">
+                返回门户
+            </a>
+        </div>
+    </div>
+
+    <!-- 设计装饰：动态背景波纹 -->
+    <div class="absolute inset-0 z-[-1] opacity-20 pointer-events-none">
+        <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0 50 Q 25 30 50 50 T 100 50" fill="none" stroke="rgba(99, 102, 241, 0.3)" stroke-width="0.1" />
+        </svg>
+    </div>
+</body>
+
+</html>
