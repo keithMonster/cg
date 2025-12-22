@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gg Nexus | 数字超我门户</title>
-    <!-- 核心依赖：Tailwind v4 + Google Fonts + Alpine.js -->
+    <title>Ouroboros | The Infinite Loop Portal</title>
+    <link rel="icon" href="./apps/shared/logo.png" type="image/png">
+    <!-- UI Frameworks (Shoelace + Tailwind v4) -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@300;500;800&display=swap"
@@ -94,11 +95,16 @@
                     <div class="absolute top-0 right-0 w-32 h-32 opacity-10 group-hover:opacity-20 transition-opacity bg-gradient-to-br"
                         :class="app.color"></div>
 
-                    <div class="text-4xl mb-6 p-4 rounded-2xl bg-white/5 border border-white/5" x-text="app.icon"></div>
-                    <h3 class="text-2xl font-bold mb-3 group-hover:text-indigo-400 transition-colors" x-text="app.name">
-                    </h3>
-                    <p class="text-slate-400 leading-relaxed font-light" x-text="app.desc"></p>
-
+                    <div
+                        class="flex flex-col items-center gap-6 mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+                        <img src="./apps/shared/logo.png" class="w-32 h-32 drop-shadow-[0_0_25px_rgba(99,102,241,0.5)]"
+                            alt="Ouroboros Logo">
+                        <h1
+                            class="text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 drop-shadow-2xl uppercase">
+                            OUROBOROS</h1>
+                        <p class="text-slate-400 font-medium tracking-[0.3em] uppercase opacity-60">Nexus for Integrated
+                            Intelligence</p>
+                    </div>
                     <div
                         class="mt-8 flex items-center text-sm font-semibold text-indigo-400 group-hover:translate-x-2 transition-transform">
                         进入应用

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chronos | Ouroboros Work Log</title>
+    <link rel="icon" href="../shared/logo.png" type="image/png">
 
     <!-- 1. Ouroboros Kernel (Skin) -->
     <link rel="stylesheet" href="../shared/ods.css">
@@ -74,7 +75,10 @@
                     pulse>Syncing...</sl-badge></template>
             <template x-if="dbState === 'offline'"><sl-badge variant="neutral" pill>Offline</sl-badge></template>
             <template x-if="dbState === 'online'"><sl-badge variant="success" pill>Cloud Active</sl-badge></template>
-            <h2 class="text-xl font-black gradient-text tracking-tighter uppercase">Chronos</h2>
+            <div class="flex items-center gap-2">
+                <img src="../shared/logo.png" class="w-8 h-8" alt="Logo">
+                <h2 class="text-xl font-black gradient-text tracking-tighter uppercase">Chronos</h2>
+            </div>
         </div>
     </nav>
 
