@@ -9,7 +9,9 @@ const ODS_CONFIG = {
   url:
     localStorage.getItem('sb_url') ||
     'https://pscrjxtqukzivnuiqwah.supabase.co',
-  key: localStorage.getItem('sb_key') || '',
+  key:
+    localStorage.getItem('sb_key') ||
+    'sb_publishable_mDgxbxhzYoG1025nVLffXw__5MiMoCK',
   theme: localStorage.getItem('ods_theme') || 'dark',
 };
 
@@ -21,38 +23,44 @@ window.sbClient =
     : null;
 
 // 3. Alpine.js Satellite Mixin
-// Usage: x-data="Satellite({ title: 'App Name' })"
+// Usage: x-data="Satellite({ title: 'App Name' })" OR inside a component: ...Satellite(...)
+window.Satellite = (config = {}) => ({
+  // Meta
+  appTitle: config.title || 'Untitled Satellite',
+
+  // System State
+  dbState: window.sbClient ? 'online' : 'offline', // 'online', 'offline', 'loading'
+
+  // Inherited Methods
+  init() {
+    this.setTheme();
+    console.log(`[Ouroboros Kernel] ${this.appTitle} initialized.`);
+    if (config.init) config.init.call(this); // Run custom init if provided
+  },
+
+  setTheme() {
+    // Prevent duplicate theme classes
+    const theme = ODS_CONFIG.theme;
+    if (!document.documentElement.classList.contains(`sl-theme-${theme}`)) {
+      document.documentElement.classList.add(`sl-theme-${theme}`);
+    }
+  },
+
+  // Helper: Format seconds to HH:MM:SS
+  formatTime(seconds) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return [h, m, s].map((v) => (v < 10 ? '0' + v : v)).join(':');
+  },
+
+  // Helper: Simple Toast (wraps console for now, can expand to UI)
+  notify(message, type = 'info') {
+    console.log(`[${type.toUpperCase()}] ${message}`);
+    // Future: Integrate with Shoelace alert
+  },
+});
+
 document.addEventListener('alpine:init', () => {
-  Alpine.data('Satellite', (config = {}) => ({
-    // Meta
-    appTitle: config.title || 'Untitled Satellite',
-
-    // System State
-    dbState: window.sbClient ? 'online' : 'offline', // 'online', 'offline', 'loading'
-
-    // Inherited Methods
-    init() {
-      this.setTheme();
-      console.log(`[Ouroboros Kernel] ${this.appTitle} initialized.`);
-      if (config.init) config.init.call(this); // Run custom init if provided
-    },
-
-    setTheme() {
-      document.documentElement.classList.add(`sl-theme-${ODS_CONFIG.theme}`);
-    },
-
-    // Helper: Format seconds to HH:MM:SS
-    formatTime(seconds) {
-      const h = Math.floor(seconds / 3600);
-      const m = Math.floor((seconds % 3600) / 60);
-      const s = seconds % 60;
-      return [h, m, s].map((v) => (v < 10 ? '0' + v : v)).join(':');
-    },
-
-    // Helper: Simple Toast (wraps console for now, can expand to UI)
-    notify(message, type = 'info') {
-      console.log(`[${type.toUpperCase()}] ${message}`);
-      // Future: Integrate with Shoelace alert
-    },
-  }));
+  Alpine.data('Satellite', window.Satellite);
 });

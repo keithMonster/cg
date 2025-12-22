@@ -368,13 +368,20 @@
 
                 selectTask(task) {
                     if (this.isRunning) {
-                        if (!confirm('当前正在计时的任务将停止并保存逻辑，确定切换？')) return;
+                        // 如果点击的是当前正在运行的任务，不做任何操作（或者可以暂停？）
+                        if (this.selectedTask && this.selectedTask.id === task.id) return;
+
+                        // 切换任务：先停止当前
                         this.stopTimer();
                     }
+
                     this.selectedTask = task;
                     this.timerSeconds = 0;
-                    this.activeTab = 'tasks';
-                    this.persistTimerState();
+                    // Auto-start
+                    this.toggleTimer();
+
+                    // Optional: Scroll to timer or highlight?
+                    // this.activeTab = 'tasks'; 
                 },
 
                 // Timer Methods
