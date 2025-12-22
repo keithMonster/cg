@@ -1,127 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gg Nexus | 数字超我门户</title>
-    <!-- 核心依赖：Tailwind v4 + Google Fonts + Alpine.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@300;500;800&display=swap"
-        rel="stylesheet">
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --accent-primary: #6366f1;
-            --accent-secondary: #a855f7;
-        }
-
-        body {
-            font-family: 'Outfit', 'Inter', sans-serif;
-            background: radial-gradient(circle at top left, #0f172a, #020617);
-            color: #f8fafc;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .glass-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--accent-primary);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #fff 30%, #94a3b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .glow {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-            z-index: -1;
-            pointer-events: none;
-        }
-    </style>
+    <meta http-equiv="refresh" content="0; url=apps/portal/index.html">
+    <title>Redirecting to Nexus Portal...</title>
+    <script type="text/javascript">
+        window.location.replace("apps/portal");
+    </script>
 </head>
 
-<body class="flex items-center justify-center p-6 bg-[#020617]" x-data="{ 
-    apps: [
-        { name: 'GenUI Lite', path: 'apps/gen-ui-lite/index.html', desc: '基于 Alpine 驱动的自编程 UI 编辑器', icon: '⚡', color: 'from-blue-500 to-indigo-500' },
-        { name: 'Nexus Core', path: 'apps/nexus-core/index.html', desc: '核心系统管理与多模态交互中心', icon: '🧠', color: 'from-purple-500 to-pink-500' }
-    ]
-}">
-    <!-- 背景流光装饰 -->
-    <div class="glow top-[-10%] left-[-10%]"></div>
-    <div class="glow bottom-[-10%] right-[-10%]"></div>
-
-    <main class="w-full max-w-5xl space-y-12 text-center" x-init="console.log('Nexus Portal Initialized')">
-        <!-- Header Section -->
-        <header class="space-y-4" x-transition.duration.500ms>
-            <div
-                class="inline-flex items-center px-4 py-1.5 mb-6 text-sm font-medium tracking-wider uppercase rounded-full bg-white/5 border border-white/10 text-indigo-400">
-                Ouroboros Kernel v1.2
-            </div>
-            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter gradient-text leading-tight">
-                GG NEXUS
-            </h1>
-            <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-                欢迎来到你的<b>数字超我</b>门户。这里是所有自编程应用的纽枢，连接你的想法与代码。
-            </p>
-        </header>
-
-        <!-- Apps Grid -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
-            <template x-for="app in apps" :key="app.name">
-                <a :href="app.path"
-                    class="glass-card group p-8 flex flex-col items-start text-left relative overflow-hidden">
-                    <!-- 背景装饰光晕 -->
-                    <div class="absolute top-0 right-0 w-32 h-32 opacity-10 group-hover:opacity-20 transition-opacity bg-gradient-to-br"
-                        :class="app.color"></div>
-
-                    <div class="text-4xl mb-6 p-4 rounded-2xl bg-white/5 border border-white/5" x-text="app.icon"></div>
-                    <h3 class="text-2xl font-bold mb-3 group-hover:text-indigo-400 transition-colors" x-text="app.name">
-                    </h3>
-                    <p class="text-slate-400 leading-relaxed font-light" x-text="app.desc"></p>
-
-                    <div
-                        class="mt-8 flex items-center text-sm font-semibold text-indigo-400 group-hover:translate-x-2 transition-transform">
-                        进入应用
-                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                        </svg>
-                    </div>
-                </a>
-            </template>
-        </section>
-
-        <!-- Footer Info -->
-        <footer class="pt-12 text-slate-500 text-sm font-light">
-            <div class="flex items-center justify-center space-x-4 mb-4">
-                <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span> System
-                    Online</span>
-                <span class="w-1 h-1 rounded-full bg-slate-700"></span>
-                <span>Workspace: cg</span>
-            </div>
-            <p>&copy; 2025 gg Ouroboros. Designed for a Super Individual.</p>
-        </footer>
-    </main>
+<body>
+    <p>正在跳转至门户页面... 如果没有自动跳转，请点击 <a href="apps/portal/index.html">此处</a>。</p>
 </body>
 
 </html>
