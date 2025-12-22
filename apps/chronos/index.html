@@ -94,7 +94,7 @@
                         @sl-input="newTaskTitle = $event.target.value" @keydown.enter="addTask" clearable>
                         <sl-icon name="list-task" slot="prefix"></sl-icon>
                     </sl-input>
-                    <sl-button variant="primary" @click="addTask">添加任务</sl-button>
+                    <sl-button variant="primary" @click="addTask" :loading="isAddingTask">添加任务</sl-button>
                 </div>
             </section>
 
@@ -263,6 +263,7 @@
                 tasks: [],
                 newTaskTitle: '',
                 selectedTask: null,
+                isAddingTask: false,
 
                 // Logs State
                 logs: [],
@@ -388,15 +389,22 @@
 
                 async addTask() {
                     if (!this.newTaskTitle.trim()) return;
-                    const newTask = { title: this.newTaskTitle, is_completed: false };
+                    this.isAddingTask = true;
 
-                    if (window.sbClient) {
-                        const { data, error } = await window.sbClient.from('chronos_tasks').insert([newTask]).select();
-                        if (data) this.tasks.unshift(data[0]);
-                    } else {
-                        this.tasks.unshift({ ...newTask, id: Date.now() });
+                    try {
+                        const newTask = { title: this.newTaskTitle, is_completed: false };
+
+                        if (window.sbClient) {
+                            const { data, error } = await window.sbClient.from('chronos_tasks').insert([newTask]).select();
+                            if (data) this.tasks.unshift(data[0]);
+                        } else {
+                            // Simulate network delay for offline mode if needed, or just instant
+                            this.tasks.unshift({ ...newTask, id: Date.now() });
+                        }
+                        this.newTaskTitle = '';
+                    } finally {
+                        this.isAddingTask = false;
                     }
-                    this.newTaskTitle = '';
                 },
 
                 async deleteTask(id) {
