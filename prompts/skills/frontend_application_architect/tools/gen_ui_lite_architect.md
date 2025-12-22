@@ -23,7 +23,8 @@
 
 - **HTML5**: 语义化标签。
 - **Alpine.js**: 核心逻辑层。
-- **Tailwind CSS**: 必须使用 v4 浏览器端 CDN：`https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4`。
+- **Tailwind CSS**: 必须使用 v4 浏览器端 CDN。
+- **Supabase**: 持久化层。使用 `@supabase/supabase-js@2` CDN。
 - **Ouroboros Design System (ODS)**: 必须在 `<style>` 中初始化 [DESIGN_SYSTEM.md](file:///Users/xuke/OtherProject/_self/cg/docs/DESIGN_SYSTEM.md) 定义的 Tokens。
 
 ### 4. 通用代码骨架 (Generic Code Skeleton)
@@ -35,7 +36,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>App Name | Ouroboros Satellite</title>
-    <!-- Tailwind v4 + Fonts -->
+    <!-- Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;500;800&display=swap"
@@ -46,6 +47,8 @@
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
       :root {
@@ -83,11 +86,26 @@
     </main>
 
     <script>
+      // Ouroboros 标准：从“本地保险箱” (Local Vault) 提取配置
+      const ODS_CONFIG = {
+        url:
+          localStorage.getItem('sb_url') ||
+          'https://pscrjxtqukzivnuiqwah.supabase.co',
+        key: localStorage.getItem('sb_key') || '',
+      };
+
+      // 初始化 Supabase 客户端 (如无秘钥则为 null)
+      const supabaseClient =
+        ODS_CONFIG.url && ODS_CONFIG.key
+          ? supabase.createClient(ODS_CONFIG.url, ODS_CONFIG.key)
+          : null;
+
       document.addEventListener('alpine:init', () => {
         Alpine.data('app', () => ({
-          title: 'My App',
-          init() {
-            console.log('App initialized');
+          title: 'My DB-Ready App',
+          db: supabaseClient,
+          async init() {
+            console.log('App initialized with DB support:', !!this.db);
           },
         }));
       });
