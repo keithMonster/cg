@@ -39,7 +39,7 @@
     <title>App Name | Ouroboros Satellite</title>
 
     <!-- 1. Ouroboros Kernel (Skin) -->
-    <link rel="stylesheet" href="../../_shared/ods.css" />
+    <link rel="stylesheet" href="../_shared/ods.css" />
 
     <!-- 2. UI Frameworks (Shoelace + Tailwind v4) -->
     <link
@@ -64,7 +64,7 @@
     ></script>
 
     <!-- 4. Ouroboros Kernel (Brain) -->
-    <script src="../../_shared/satellite.js"></script>
+    <script src="../_shared/satellite.js"></script>
   </head>
   <body x-data="Satellite({ title: 'New App' })" class="ready">
     <!-- Standard Nav -->
