@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronos | Ouroboros Work Log</title>
+    <!-- Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;500;800&display=swap"
+        rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        :root {
+            --ods-bg: #020617;
+            --ods-surface: rgba(255, 255, 255, 0.03);
+            --ods-border: rgba(255, 255, 255, 0.1);
+            --ods-primary: #6366f1;
+            --ods-secondary: #a855f7;
+            --ods-font-display: 'Outfit', sans-serif;
+            --ods-font-body: 'Inter', sans-serif;
+            --ods-blur: blur(12px);
+        }
+
+        body {
+            background: var(--ods-bg);
+            color: #f8fafc;
+            font-family: var(--ods-font-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: var(--ods-font-display);
+        }
+
+        .glass-card {
+            background: var(--ods-surface);
+            backdrop-filter: var(--ods-blur);
+            border: 1px solid var(--ods-border);
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: var(--ods-primary);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #fff 40%, rgba(255, 255, 255, 0.4));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--ods-border);
+            border-radius: 10px;
+        }
+
+        .timer-ring {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 1s linear;
+        }
+    </style>
+</head>
+
+<body x-data="app()">
+    <nav
+        class="p-6 flex justify-between items-center border-b border-white/5 sticky top-0 bg-[#020617]/80 backdrop-blur-md z-50">
+        <a href="../../index.html" class="text-slate-400 hover:text-white transition-colors flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+                </path>
+            </svg>
+            Portal
+        </a>
+        <div class="flex items-center gap-4">
+            <template x-if="dbState === 'loading'"><span
+                    class="text-xs text-yellow-500 animate-pulse uppercase">Syncing...</span></template>
+            <template x-if="dbState === 'offline'"><span
+                    class="text-xs text-red-500 uppercase">Offline</span></template>
+            <template x-if="dbState === 'online'"><span class="text-xs text-green-500 uppercase">Cloud
+                    Active</span></template>
+            <h2 class="text-xl font-black gradient-text tracking-tighter uppercase">Chronos</h2>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Left Column: Tasks & History -->
+        <div class="lg:col-span-8 space-y-8">
+
+            <!-- Task Creation -->
+            <section class="glass-card p-6">
+                <div class="flex gap-4">
+                    <input type="text" x-model="newTaskTitle" @keydown.enter="addTask" placeholder="有什么新计划？"
+                        class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 focus:bg-white/10 transition-all">
+                    <button @click="addTask"
+                        class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold transition-all">添加任务</button>
+                </div>
+            </section>
+
+            <!-- Section Tabs -->
+            <div class="flex gap-4 border-b border-white/5">
+                <button @click="activeTab = 'tasks'"
+                    :class="activeTab === 'tasks' ? 'text-white border-b-2 border-indigo-500' : 'text-slate-500'"
+                    class="pb-2 px-4 transition-all uppercase tracking-widest text-xs font-bold">任务列表</button>
+                <button @click="activeTab = 'logs'"
+                    :class="activeTab === 'logs' ? 'text-white border-b-2 border-indigo-500' : 'text-slate-500'"
+                    class="pb-2 px-4 transition-all uppercase tracking-widest text-xs font-bold">工作看板</button>
+            </div>
+
+            <!-- Task List Content -->
+            <div x-show="activeTab === 'tasks'" class="space-y-4" x-transition>
+                <template x-if="tasks.length === 0">
+                    <div class="p-12 text-center text-slate-600 font-light italic">暂无任务，开启一个新的开始。</div>
+                </template>
+                <template x-for="task in sortedTasks" :key="task.id">
+                    <div class="glass-card p-5 flex items-center justify-between group"
+                        :class="task.is_completed ? 'opacity-50' : ''">
+                        <div class="flex items-center gap-4 flex-1">
+                            <button @click="toggleTaskStatus(task)"
+                                class="w-6 h-6 rounded-full border-2 border-indigo-500/50 flex items-center justify-center transition-all"
+                                :class="task.is_completed ? 'bg-indigo-500 border-indigo-500' : 'hover:border-indigo-400'">
+                                <svg x-show="task.is_completed" class="w-3 h-3 text-white" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </button>
+                            <span x-text="task.title" :class="task.is_completed ? 'line-through text-slate-500' : ''"
+                                class="text-lg font-medium"></span>
+                        </div>
+                        <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button @click="selectTask(task)" x-show="!task.is_completed"
+                                class="p-2 hover:text-indigo-400 text-slate-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z">
+                                    </path>
+                                </svg>
+                            </button>
+                            <button @click="deleteTask(task.id)" class="p-2 hover:text-red-400 text-slate-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Logs Board Content -->
+            <div x-show="activeTab === 'logs'" class="space-y-6" x-transition>
+                <div class="flex items-center justify-between mb-4">
+                    <input type="date" x-model="filterDate"
+                        class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm outline-none focus:border-indigo-500">
+                    <span class="text-xs text-slate-500 uppercase font-bold"
+                        x-text="'Total Duration: ' + formatTime(totalDaySeconds)"></span>
+                </div>
+                <div class="space-y-2">
+                    <template x-for="log in filteredLogs" :key="log.id">
+                        <div class="glass-card p-4 flex items-center justify-between border-l-4"
+                            :style="'border-left-color: ' + (log.task_id ? 'var(--ods-primary)' : '#475569')">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-mono text-slate-500" x-text="getTimeRange(log)"></span>
+                                    <span class="font-bold" x-text="log.activity"></span>
+                                </div>
+                                <div class="text-xs text-slate-500 flex items-center gap-2 mt-1">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span x-text="formatTime(log.duration)"></span>
+                                </div>
+                            </div>
+                            <button @click="deleteLog(log.id)"
+                                class="p-2 hover:text-red-400 text-slate-500 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Active Timer -->
+        <div class="lg:col-span-4 space-y-8">
+            <section class="glass-card p-8 sticky top-24 text-center">
+                <h3 class="text-xs font-black uppercase tracking-[0.2em] text-indigo-400 mb-8">Active Pulse</h3>
+
+                <div class="relative inline-flex items-center justify-center mb-8">
+                    <!-- Timer Circle -->
+                    <svg class="w-48 h-48 -rotate-90">
+                        <circle cx="96" cy="96" r="80" stroke="currentColor" stroke-width="4" fill="transparent"
+                            class="text-slate-800" />
+                        <circle cx="96" cy="96" r="80" stroke="currentColor" stroke-width="6" fill="transparent"
+                            class="text-indigo-500 transition-all duration-1000"
+                            :style="'stroke-dasharray: 502; stroke-dashoffset: ' + (502 - (timerSeconds % 60) * (502/60))" />
+                    </svg>
+                    <div class="absolute flex flex-col items-center">
+                        <span class="text-4xl font-black tabular-nums tracking-tighter"
+                            x-text="formatTime(timerSeconds)"></span>
+                        <span class="text-[10px] text-slate-500 uppercase tracking-widest mt-1"
+                            x-text="isRunning ? 'Running' : 'Paused'"></span>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div
+                        class="p-4 bg-white/5 rounded-2xl min-h-[80px] flex flex-col justify-center border border-white/5">
+                        <template x-if="!selectedTask">
+                            <span class="text-slate-500 italic text-sm">选择一个任务开始计时</span>
+                        </template>
+                        <template x-if="selectedTask">
+                            <div>
+                                <span class="text-xs text-indigo-400 uppercase font-bold block mb-1">Focusing on</span>
+                                <span class="text-lg font-bold" x-text="selectedTask.title"></span>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button @click="toggleTimer" :disabled="!selectedTask"
+                            class="flex-1 bg-white text-slate-950 px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-slate-200 disabled:opacity-30 transition-all">
+                            <span x-text="isRunning ? 'Pause' : 'Start'"></span>
+                        </button>
+                        <button @click="stopTimer" :disabled="!isRunning && timerSeconds === 0"
+                            class="bg-red-500/20 text-red-400 px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-red-500 hover:text-white disabled:opacity-30 transition-all">
+                            Stop
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <script>
+        // Local Vault Pattern
+        const ODS_CONFIG = {
+            url: localStorage.getItem('sb_url') || 'https://pscrjxtqukzivnuiqwah.supabase.co',
+            key: localStorage.getItem('sb_key') || 'sb_publishable_mDgxbxhzYoG1025nVLffXw__5MiMoCK'
+        };
+
+        const sbClient = (ODS_CONFIG.url && ODS_CONFIG.key) ? supabase.createClient(ODS_CONFIG.url, ODS_CONFIG.key) : null;
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('app', () => ({
+                dbState: sbClient ? 'loading' : 'offline',
+                activeTab: 'tasks',
+
+                // Tasks State
+                tasks: [],
+                newTaskTitle: '',
+                selectedTask: null,
+
+                // Logs State
+                logs: [],
+                filterDate: new Date().toISOString().split('T')[0],
+
+                // Timer State
+                timerSeconds: 0,
+                isRunning: false,
+                timerInterval: null,
+                sessionStartAt: null,
+
+                async init() {
+                    if (sbClient) {
+                        await this.syncData();
+                    }
+                    console.log('Chronos Initialized');
+                },
+
+                async syncData() {
+                    this.dbState = 'loading';
+                    try {
+                        // Fetch Tasks
+                        let { data: ts } = await sbClient.from('chronos_tasks').select('*').order('created_at', { ascending: false });
+                        this.tasks = ts || [];
+
+                        // Fetch Logs
+                        let { data: ls } = await sbClient.from('chronos_logs').select('*').order('started_at', { ascending: false });
+                        this.logs = ls || [];
+
+                        this.dbState = 'online';
+                    } catch (e) {
+                        console.error(e);
+                        this.dbState = 'offline';
+                    }
+                },
+
+                // Task Methods
+                get sortedTasks() {
+                    return this.tasks.sort((a, b) => a.is_completed - b.is_completed);
+                },
+
+                async addTask() {
+                    if (!this.newTaskTitle.trim()) return;
+                    const newTask = { title: this.newTaskTitle, is_completed: false };
+
+                    if (sbClient) {
+                        const { data, error } = await sbClient.from('chronos_tasks').insert([newTask]).select();
+                        if (data) this.tasks.unshift(data[0]);
+                    } else {
+                        this.tasks.unshift({ ...newTask, id: Date.now() });
+                    }
+                    this.newTaskTitle = '';
+                },
+
+                async deleteTask(id) {
+                    if (sbClient) await sbClient.from('chronos_tasks').delete().eq('id', id);
+                    this.tasks = this.tasks.filter(t => t.id !== id);
+                    if (this.selectedTask && this.selectedTask.id === id) this.stopTimer();
+                },
+
+                async toggleTaskStatus(task) {
+                    task.is_completed = !task.is_completed;
+                    if (sbClient) await sbClient.from('chronos_tasks').update({ is_completed: task.is_completed }).eq('id', task.id);
+                    if (task.is_completed && this.selectedTask && this.selectedTask.id === task.id) {
+                        this.stopTimer();
+                    }
+                },
+
+                selectTask(task) {
+                    if (this.isRunning) {
+                        if (!confirm('当前正在计时的任务将停止并保存逻辑，确定切换？')) return;
+                        this.stopTimer();
+                    }
+                    this.selectedTask = task;
+                    this.timerSeconds = 0;
+                    this.activeTab = 'tasks';
+                },
+
+                // Timer Methods
+                toggleTimer() {
+                    if (this.isRunning) {
+                        clearInterval(this.timerInterval);
+                        this.isRunning = false;
+                    } else {
+                        if (!this.sessionStartAt) this.sessionStartAt = new Date();
+                        this.isRunning = true;
+                        this.timerInterval = setInterval(() => {
+                            this.timerSeconds++;
+                        }, 1000);
+                    }
+                },
+
+                async stopTimer() {
+                    if (this.timerSeconds > 0) {
+                        const endedAt = new Date();
+                        const startedAt = this.sessionStartAt || new Date(endedAt.getTime() - this.timerSeconds * 1000);
+
+                        const newLog = {
+                            task_id: this.selectedTask ? this.selectedTask.id : null,
+                            activity: this.selectedTask ? this.selectedTask.title : '未指定任务',
+                            duration: this.timerSeconds,
+                            started_at: startedAt.toISOString(),
+                            ended_at: endedAt.toISOString()
+                        };
+
+                        if (sbClient) {
+                            const { data } = await sbClient.from('chronos_logs').insert([newLog]).select();
+                            if (data) this.logs.unshift(data[0]);
+                        } else {
+                            this.logs.unshift({ ...newLog, id: Date.now() });
+                        }
+                    }
+
+                    clearInterval(this.timerInterval);
+                    this.isRunning = false;
+                    this.timerSeconds = 0;
+                    this.sessionStartAt = null;
+                    this.selectedTask = null;
+                },
+
+                // Logs Methods
+                get filteredLogs() {
+                    return this.logs.filter(l => l.started_at.split('T')[0] === this.filterDate);
+                },
+
+                get totalDaySeconds() {
+                    return this.filteredLogs.reduce((acc, current) => acc + current.duration, 0);
+                },
+
+                async deleteLog(id) {
+                    if (sbClient) await sbClient.from('chronos_logs').delete().eq('id', id);
+                    this.logs = this.logs.filter(l => l.id !== id);
+                },
+
+                // UI Helpers
+                formatTime(seconds) {
+                    const h = Math.floor(seconds / 3600);
+                    const m = Math.floor((seconds % 3600) / 60);
+                    const s = seconds % 60;
+                    return [h, m, s].map(v => v < 10 ? '0' + v : v).join(':');
+                },
+
+                getTimeRange(log) {
+                    const s = new Date(log.started_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    const e = new Date(log.ended_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    return `${s} - ${e}`;
+                }
+            }))
+        });
+    </script>
+</body>
+
+</html>
