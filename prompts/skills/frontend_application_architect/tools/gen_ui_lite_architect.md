@@ -23,35 +23,46 @@
 
 - **HTML5**: 语义化标签。
 - **Alpine.js**: 核心逻辑层。
+- **Shoelace**: UI 组件库。使用 v2.12.0 CDN。
 - **Tailwind CSS**: 必须使用 v4 浏览器端 CDN。
-- **Supabase**: 持久化层。使用 `@supabase/supabase-js@2` CDN。
+- **Supabase**: 持久化层。使用 v2 CDN。
 - **Ouroboros Design System (ODS)**: 必须在 `<style>` 中初始化 [DESIGN_SYSTEM.md](file:///Users/xuke/OtherProject/_self/cg/docs/DESIGN_SYSTEM.md) 定义的 Tokens。
 
 ### 4. 通用代码骨架 (Generic Code Skeleton)
 
 ```html
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="sl-theme-dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>App Name | Ouroboros Satellite</title>
-    <!-- Dependencies -->
+
+    <!-- UI Frameworks (Shoelace + Tailwind v4) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/themes/dark.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;500;800&display=swap"
       rel="stylesheet"
     />
-    <!-- Alpine.js -->
+
+    <!-- Framework Logic (Alpine + Supabase + Shoelace Autoloader) -->
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/shoelace-autoloader.js"
+    ></script>
 
     <style>
       :root {
+        /* Ouroboros Design System (ODS) v1.0 Tokens */
         --ods-bg: #020617;
         --ods-surface: rgba(255, 255, 255, 0.03);
         --ods-border: rgba(255, 255, 255, 0.1);
@@ -60,12 +71,18 @@
         --ods-font-display: 'Outfit', sans-serif;
         --ods-font-body: 'Inter', sans-serif;
         --ods-blur: blur(12px);
+        --ods-glass-hover: rgba(255, 255, 255, 0.08);
       }
       body {
         background: var(--ods-bg);
         color: #f8fafc;
         font-family: var(--ods-font-body);
         min-height: 100vh;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+      body.ready {
+        opacity: 1;
       }
       h1,
       h2,
@@ -77,12 +94,23 @@
         backdrop-filter: var(--ods-blur);
         border: 1px solid var(--ods-border);
         border-radius: 1.5rem;
+        transition: all 0.3s ease;
+      }
+      .glass-card:hover {
+        border-color: var(--ods-primary);
+        background: var(--ods-glass-hover);
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #fff 40%, rgba(255, 255, 255, 0.4));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
     </style>
   </head>
-  <body x-data="app()">
+  <body x-data="app()" class="ready">
     <main class="p-6">
-      <!-- UI Here -->
+      <!-- UI Here (Use sl- components where appropriate) -->
     </main>
 
     <script>
@@ -102,10 +130,12 @@
 
       document.addEventListener('alpine:init', () => {
         Alpine.data('app', () => ({
-          title: 'My DB-Ready App',
+          title: 'Premium Satellite App',
           db: supabaseClient,
           async init() {
-            console.log('App initialized with DB support:', !!this.db);
+            console.log(
+              'App initialized with OSF (Ouroboros Standard Framework)'
+            );
           },
         }));
       });

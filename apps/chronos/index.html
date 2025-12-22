@@ -292,7 +292,69 @@
                     if (sbClient) {
                         await this.syncData();
                     }
+                    // 启动恢复逻辑：检查是否有未完成的“心跳”
+                    this.recoverLastSession();
+
+                    window.addEventListener('beforeunload', () => {
+                        if (this.isRunning) this.persistTimerState();
+                    });
                     console.log('Chronos Initialized');
+                },
+
+                // Pulse Sync: 记录当前计时状态至本地“黑匣子”
+                persistTimerState() {
+                    if (this.isRunning && this.selectedTask) {
+                        localStorage.setItem('chronos_active_session', JSON.stringify({
+                            task: this.selectedTask,
+                            startAt: this.sessionStartAt.toISOString(),
+                            lastTick: new Date().toISOString()
+                        }));
+                    } else {
+                        localStorage.removeItem('chronos_active_session');
+                    }
+                },
+
+                async recoverLastSession() {
+                    const raw = localStorage.getItem('chronos_active_session');
+                    if (!raw) return;
+
+                    try {
+                        const session = JSON.parse(raw);
+                        const lastTick = new Date(session.lastTick);
+                        const startAt = new Date(session.startAt);
+                        const now = new Date();
+
+                        // 如果最后一次心跳距今超过 10 秒，视为中断，进行打捞
+                        if (now - lastTick > 10000) {
+                            const duration = Math.floor((lastTick - startAt) / 1000);
+                            if (duration > 5) { // 忽略太短的无意义记录
+                                const recoveredLog = {
+                                    task_id: session.task.id,
+                                    activity: session.task.title + ' (已恢复)',
+                                    duration: duration,
+                                    started_at: session.startAt,
+                                    ended_at: session.lastTick
+                                };
+
+                                if (sbClient) {
+                                    await sbClient.from('chronos_logs').insert([recoveredLog]);
+                                    await this.syncData();
+                                } else {
+                                    this.logs.unshift({ ...recoveredLog, id: Date.now() });
+                                }
+                                alert(`检测到意外中断，已自动为你恢复并保存了上次 ${this.formatTime(duration)} 的工作日志。`);
+                            }
+                            localStorage.removeItem('chronos_active_session');
+                        } else {
+                            // 如果中断时间很短（比如刚刷新），可以尝试继续计时
+                            this.selectedTask = session.task;
+                            this.sessionStartAt = startAt;
+                            this.timerSeconds = Math.floor((now - startAt) / 1000);
+                            this.toggleTimer();
+                        }
+                    } catch (e) {
+                        localStorage.removeItem('chronos_active_session');
+                    }
                 },
 
                 async syncData() {
@@ -353,6 +415,7 @@
                     this.selectedTask = task;
                     this.timerSeconds = 0;
                     this.activeTab = 'tasks';
+                    this.persistTimerState();
                 },
 
                 // Timer Methods
@@ -360,11 +423,15 @@
                     if (this.isRunning) {
                         clearInterval(this.timerInterval);
                         this.isRunning = false;
+                        this.persistTimerState(); // 停止时清除本地快照
                     } else {
                         if (!this.sessionStartAt) this.sessionStartAt = new Date();
                         this.isRunning = true;
+                        this.persistTimerState(); // 启动时立即建立快照
                         this.timerInterval = setInterval(() => {
                             this.timerSeconds++;
+                            // 每 10 秒强制刷新一次本地“黑匣子”心跳，防止崩溃丢失
+                            if (this.timerSeconds % 10 === 0) this.persistTimerState();
                         }, 1000);
                     }
                 },
@@ -395,6 +462,7 @@
                     this.timerSeconds = 0;
                     this.sessionStartAt = null;
                     this.selectedTask = null;
+                    this.persistTimerState(); // 任务停止并保存，清除快照
                 },
 
                 // Logs Methods
