@@ -96,8 +96,9 @@
 
             <!-- Navigation Tabs -->
             <sl-tab-group @sl-tab-show="activeTab = $event.detail.name">
-                <sl-tab slot="nav" panel="tasks">任务列表</sl-tab>
-                <sl-tab slot="nav" panel="logs">工作看板</sl-tab>
+                <sl-tab slot="nav" panel="tasks" active>任务列表</sl-tab>
+                <sl-tab slot="nav" panel="logs">时间日志</sl-tab>
+                <sl-tab slot="nav" panel="summary">每日回顾</sl-tab>
             </sl-tab-group>
 
             <!-- Task List Content -->
@@ -139,20 +140,42 @@
                         <div class="glass-card p-4 flex items-center justify-between border-l-4"
                             :style="'border-left-color: ' + (log.task_id ? 'var(--ods-primary)' : '#475569')">
                             <div>
-                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-4">
                                     <sl-badge variant="neutral" x-text="getTimeRange(log)" size="small"></sl-badge>
-                                    <span class="font-bold" x-text="log.activity"></span>
+                                    <span class="font-bold tracking-tight" x-text="log.activity"></span>
                                 </div>
-                                <div class="text-sm text-slate-400 flex items-center gap-2 mt-2">
+                                <div class="text-sm text-slate-400 mt-2 flex items-center gap-2">
                                     <sl-icon name="clock"></sl-icon>
                                     <span x-text="formatTime(log.duration)"></span>
                                 </div>
                             </div>
-                            <sl-icon-button name="x-lg" label="Delete Log" class="text-red-400"
-                                @click="deleteLog(log.id)"></sl-icon-button>
+                            <sl-icon-button name="trash" @click="deleteLog(log.id)"
+                                class="text-red-400/50 hover:text-red-400"></sl-icon-button>
                         </div>
                     </template>
                 </div>
+            </div>
+
+            <!-- Daily Summary Content -->
+            <div x-show="activeTab === 'summary'" class="space-y-8" x-transition>
+                <template x-for="day in dailyHistory" :key="day.date">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <h3 class="text-xs font-black uppercase tracking-widest text-indigo-400"
+                                x-text="day.date === new Date().toISOString().split('T')[0] ? '今天 · ' + day.date : day.date">
+                            </h3>
+                            <div class="h-px flex-1 bg-white/5"></div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <template x-for="task in day.tasks" :key="task">
+                                <div
+                                    class="glass-card px-4 py-2 text-sm font-medium hover:border-indigo-500/50 transition-colors">
+                                    <span x-text="task"></span>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
 
@@ -432,6 +455,23 @@
                 },
 
                 // Logs Methods
+                // Daily History Aggregation
+                get dailyHistory() {
+                    const groups = {};
+                    this.logs.forEach(log => {
+                        const date = log.started_at.split('T')[0];
+                        if (!groups[date]) groups[date] = new Set();
+                        groups[date].add(log.activity);
+                    });
+
+                    return Object.keys(groups)
+                        .sort((a, b) => b.localeCompare(a))
+                        .map(date => ({
+                            date,
+                            tasks: Array.from(groups[date])
+                        }));
+                },
+
                 get filteredLogs() {
                     return this.logs.filter(l => l.started_at.split('T')[0] === this.filterDate);
                 },
