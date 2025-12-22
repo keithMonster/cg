@@ -270,12 +270,13 @@
 
                 // Timer State
                 timerSeconds: 0,
+                accumulatedSeconds: 0, // 累计已完成秒数
                 isRunning: false,
                 timerInterval: null,
                 sessionStartAt: null,
 
                 async init() {
-                    if (sbClient) {
+                    if (window.sbClient) {
                         await this.syncData();
                     }
                     // 启动恢复逻辑：检查是否有未完成的“心跳”
@@ -284,7 +285,24 @@
                     window.addEventListener('beforeunload', () => {
                         if (this.isRunning) this.persistTimerState();
                     });
+
+                    // 监听页面可见性变化，确保切回来时计时器立即更新
+                    document.addEventListener('visibilitychange', () => {
+                        if (!document.hidden && this.isRunning) {
+                            this.refreshTimer();
+                        }
+                    });
+
                     console.log('Chronos Initialized');
+                },
+
+                // 强制刷新当前计时器显示的秒数
+                refreshTimer() {
+                    if (this.isRunning && this.sessionStartAt) {
+                        const now = new Date();
+                        const elapsed = Math.floor((now - this.sessionStartAt) / 1000);
+                        this.timerSeconds = this.accumulatedSeconds + elapsed;
+                    }
                 },
 
                 // Pulse Sync: 记录当前计时状态至本地“黑匣子”
@@ -292,6 +310,7 @@
                     if (this.isRunning && this.selectedTask) {
                         localStorage.setItem('chronos_active_session', JSON.stringify({
                             task: this.selectedTask,
+                            accumulatedSeconds: this.accumulatedSeconds,
                             startAt: this.sessionStartAt.toISOString(),
                             lastTick: new Date().toISOString()
                         }));
@@ -312,7 +331,7 @@
 
                         // 如果最后一次心跳距今超过 10 秒，视为中断，进行打捞
                         if (now - lastTick > 10000) {
-                            const duration = Math.floor((lastTick - startAt) / 1000);
+                            const duration = (session.accumulatedSeconds || 0) + Math.floor((lastTick - startAt) / 1000);
                             if (duration > 5) { // 忽略太短的无意义记录
                                 const recoveredLog = {
                                     task_id: session.task.id,
@@ -335,7 +354,8 @@
                             // 如果中断时间很短（比如刚刷新），可以尝试继续计时
                             this.selectedTask = session.task;
                             this.sessionStartAt = startAt;
-                            this.timerSeconds = Math.floor((now - startAt) / 1000);
+                            this.accumulatedSeconds = session.accumulatedSeconds || 0;
+                            this.refreshTimer();
                             this.toggleTimer();
                         }
                     } catch (e) {
@@ -404,6 +424,7 @@
 
                     this.selectedTask = task;
                     this.timerSeconds = 0;
+                    this.accumulatedSeconds = 0;
                     // Auto-start
                     this.toggleTimer();
 
@@ -414,15 +435,22 @@
                 // Timer Methods
                 toggleTimer() {
                     if (this.isRunning) {
+                        // 暂停：记录当前已经过的时间到累计值
+                        this.accumulatedSeconds += Math.floor((new Date() - this.sessionStartAt) / 1000);
+                        this.timerSeconds = this.accumulatedSeconds;
+
                         clearInterval(this.timerInterval);
                         this.isRunning = false;
-                        this.persistTimerState(); // 停止时清除本地快照
+                        this.sessionStartAt = null;
+                        this.persistTimerState();
                     } else {
-                        if (!this.sessionStartAt) this.sessionStartAt = new Date();
+                        // 开始/继续
+                        this.sessionStartAt = new Date();
                         this.isRunning = true;
-                        this.persistTimerState(); // 启动时立即建立快照
+                        this.persistTimerState();
+
                         this.timerInterval = setInterval(() => {
-                            this.timerSeconds++;
+                            this.refreshTimer();
                             // 每 10 秒强制刷新一次本地“黑匣子”心跳，防止崩溃丢失
                             if (this.timerSeconds % 10 === 0) this.persistTimerState();
                         }, 1000);
@@ -430,32 +458,43 @@
                 },
 
                 async stopTimer() {
-                    if (this.timerSeconds > 0) {
+                    if (this.isRunning || this.accumulatedSeconds > 0) {
                         const endedAt = new Date();
-                        const startedAt = this.sessionStartAt || new Date(endedAt.getTime() - this.timerSeconds * 1000);
+                        let duration = this.accumulatedSeconds;
+                        let startedAt = this.sessionStartAt;
 
-                        const newLog = {
-                            task_id: this.selectedTask ? this.selectedTask.id : null,
-                            activity: this.selectedTask ? this.selectedTask.title : '未指定任务',
-                            duration: this.timerSeconds,
-                            started_at: startedAt.toISOString(),
-                            ended_at: endedAt.toISOString()
-                        };
-
-                        if (window.sbClient) {
-                            const { data } = await window.sbClient.from('chronos_logs').insert([newLog]).select();
-                            if (data) this.logs.unshift(data[0]);
+                        if (this.isRunning && this.sessionStartAt) {
+                            duration += Math.floor((endedAt - this.sessionStartAt) / 1000);
                         } else {
-                            this.logs.unshift({ ...newLog, id: Date.now() });
+                            // 如果是暂停状态下停止，startedAt 取自 sessionStartAt (如果还在) 或者根据持续时间倒推
+                            startedAt = startedAt || new Date(endedAt.getTime() - duration * 1000);
+                        }
+
+                        if (duration > 0) {
+                            const newLog = {
+                                task_id: this.selectedTask ? this.selectedTask.id : null,
+                                activity: this.selectedTask ? this.selectedTask.title : '未指定任务',
+                                duration: duration,
+                                started_at: startedAt.toISOString(),
+                                ended_at: endedAt.toISOString()
+                            };
+
+                            if (window.sbClient) {
+                                const { data } = await window.sbClient.from('chronos_logs').insert([newLog]).select();
+                                if (data) this.logs.unshift(data[0]);
+                            } else {
+                                this.logs.unshift({ ...newLog, id: Date.now() });
+                            }
                         }
                     }
 
                     clearInterval(this.timerInterval);
                     this.isRunning = false;
                     this.timerSeconds = 0;
+                    this.accumulatedSeconds = 0;
                     this.sessionStartAt = null;
                     this.selectedTask = null;
-                    this.persistTimerState(); // 任务停止并保存，清除快照
+                    this.persistTimerState();
                 },
 
                 // Logs Methods
