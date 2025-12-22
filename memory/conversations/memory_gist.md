@@ -1,7 +1,7 @@
 ---
 version: "1.0.0"
-created: 2025-12-18
-last_updated: 2025-12-18
+created: 2025-12-22
+last_updated: 2025-12-22
 description: "高密度对话摘要 - gg 的注意力入口"
 ---
 
@@ -55,5 +55,5 @@ description: "高密度对话摘要 - gg 的注意力入口"
 
 ---
 
-_最后更新: 2025-12-18 10:40:29_
+_最后更新: 2025-12-22 15:32:23_
 _此文件由 `scripts/memory_management.sh --summarize` 生成_
