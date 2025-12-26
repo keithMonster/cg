@@ -110,7 +110,7 @@
                 <template x-if="tasks.length === 0">
                     <div class="p-12 text-center text-slate-600 font-light italic">暂无任务，开启一个新的开始。</div>
                 </template>
-                <template x-for="task in sortedTasks" :key="task.id">
+                <template x-for="task in paginatedTasks" :key="task.id">
                     <div class="glass-card p-5 flex items-center justify-between group"
                         :class="task.is_completed ? 'opacity-50' : ''">
                         <div class="flex items-center gap-4 flex-1">
@@ -128,6 +128,16 @@
                             <sl-icon-button name="trash" label="Delete Task" class="text-xl text-red-400"
                                 @click="deleteTask(task.id)"></sl-icon-button>
                         </div>
+                    </div>
+                </template>
+
+                <!-- Load More Button -->
+                <template x-if="hasMoreTasks">
+                    <div class="text-center pt-4">
+                        <sl-button variant="text" @click="loadMoreTasks">
+                            <sl-icon slot="prefix" name="arrow-down-circle"></sl-icon>
+                            加载更多
+                        </sl-button>
                     </div>
                 </template>
             </div>
@@ -264,6 +274,8 @@
                 newTaskTitle: '',
                 selectedTask: null,
                 isAddingTask: false,
+                taskPageSize: 20,
+                taskCurrentPage: 1,
 
                 // Logs State
                 logs: [],
@@ -384,7 +396,19 @@
 
                 // Task Methods
                 get sortedTasks() {
-                    return this.tasks.sort((a, b) => a.is_completed - b.is_completed);
+                    return this.tasks.slice().sort((a, b) => a.is_completed - b.is_completed);
+                },
+
+                get paginatedTasks() {
+                    return this.sortedTasks.slice(0, this.taskCurrentPage * this.taskPageSize);
+                },
+
+                get hasMoreTasks() {
+                    return this.paginatedTasks.length < this.sortedTasks.length;
+                },
+
+                loadMoreTasks() {
+                    this.taskCurrentPage++;
                 },
 
                 async addTask() {
