@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能化中心季度会议</title>
+    <style>
+        :root {
+            --primary: #C02537;
+            --secondary: #E0E0E0;
+            --text-main: #2C3E50;
+            --text-light: #546E7A;
+            --bg-canvas: #F9FAFB;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.06);
+            --padding-page: 4vw;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            overflow: hidden;
+            background: var(--bg-canvas);
+        }
+
+        #presentation {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .slide {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            padding: var(--padding-page);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide.cover {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .slide.cover h1 {
+            position: static;
+            font-size: 4rem;
+            justify-content: center;
+            height: auto;
+            margin-bottom: 2rem;
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .slide.cover p {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            height: 4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            padding-bottom: 0.5rem;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.75rem;
+            height: 2.25rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .content-area {
+            flex: 1;
+            width: 100%;
+            min-height: 0;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            height: 100%;
+            align-content: center;
+        }
+
+        .agenda-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid var(--primary);
+        }
+
+        .agenda-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(192, 37, 55, 0.15);
+        }
+
+        .agenda-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .agenda-title {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .agenda-speaker {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 30px;
+            right: 50px;
+            color: #f1f1f1;
+            font-size: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10000;
+        }
+
+        .close-modal:hover {
+            color: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="presentation">
+        <div class="slide cover">
+            <h1>智能化中心季度会议</h1>
+            <p>2025年度工作汇报与规划</p>
+        </div>
+        <div class="slide">
+            <h1>会议议程</h1>
+            <div class="content-area">
+                <div class="agenda-grid">
+                    <div class="agenda-card">
+                        <div class="agenda-number">01</div>
+                        <div class="agenda-title">IT 成果、计划汇报</div>
+                        <div class="agenda-speaker">汇报人：董超戈</div>
+                    </div>
+                    <div class="agenda-card">
+                        <div class="agenda-number">02</div>
+                        <div class="agenda-title">OT 成果、计划汇报</div>
+                        <div class="agenda-speaker">汇报人：李弦</div>
+                    </div>
+                    <div class="agenda-card">
+                        <div class="agenda-number">03</div>
+                        <div class="agenda-title">部门整体总结和规划</div>
+                        <div class="agenda-speaker">汇报人：李弦</div>
+                    </div>
+                    <div class="agenda-card">
+                        <div class="agenda-number">04</div>
+                        <div class="agenda-title">优秀员工表彰</div>
+                        <div class="agenda-speaker">主持人：李弦</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="imageModal" class="modal"> <span class="close-modal">×</span> <img class="modal-content" id="modalImage" />
+    </div>
+    <script src="https://minio-api.cgboiler.com/wflow/js/pmo_base.js?t=1751528548983"></script>
+</body>
+
+</html>

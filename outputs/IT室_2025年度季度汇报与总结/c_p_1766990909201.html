@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025年度IT室工作总结汇报</title>
+    <style>
+        :root {
+            --primary: #C02537;
+            --secondary: #E0E0E0;
+            --text-main: #2C3E50;
+            --text-light: #546E7A;
+            --bg-canvas: #F9FAFB;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.06);
+            --padding-page: 4vw;
+        }
+
+        html {
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            overflow: hidden;
+            background: var(--bg-canvas);
+        }
+
+        #presentation {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .slide {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            padding: var(--padding-page);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            height: 4rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .slide h2 {
+            color: var(--primary);
+            font-size: 1.75rem;
+            height: 2.25rem;
+            font-weight: 500;
+            margin: 0 0 1rem 0;
+        }
+
+        .content-area {
+            flex: 1;
+            width: 100%;
+            min-height: 0;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.cover {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .slide.cover h1 {
+            position: static;
+            font-size: 4rem;
+            justify-content: center;
+            height: auto;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .slide.cover p {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0.5rem 0;
+        }
+
+        .grid-2x2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            height: 100%;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .card h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .card p,
+        .card ul {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .card ul {
+            padding-left: 1.5rem;
+        }
+
+        .card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding-left: 1rem;
+            padding-top: 1rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 2.5rem;
+            top: 2rem;
+            bottom: 2rem;
+            width: 2px;
+            background: var(--secondary);
+            z-index: 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            position: relative;
+            margin-bottom: 2rem;
+            z-index: 1;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-marker {
+            background: #EFEFEF;
+            color: #333;
+            font-weight: bold;
+            width: 3rem;
+            height: 3rem;
+            flex-shrink: 0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid var(--bg-canvas);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-item:hover .timeline-marker {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .timeline-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+        }
+
+        .timeline-date {
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .timeline-content h3 {
+            color: var(--text-main);
+            font-size: 1.3rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .timeline-content p {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .timeline-content ul {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--text-light);
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-content li {
+            margin-bottom: 0.3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            height: 100%;
+            align-content: start;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(192, 37, 55, 0.1) 0%, rgba(192, 37, 55, 0.05) 100%);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .highlight-box p {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="presentation">
+        <div class="slide cover">
+            <h1>2025年度IT室工作总结汇报</h1>
+            <p>智能化中心 IT 室</p>
+            <p>汇报人：董超戈</p>
+            <p>2025年12月30日</p>
+        </div>
+        <div class="slide">
+            <h1>年度工作综述</h1>
+            <div class="content-area">
+                <div class="card" style="height: 100%;">
+                    <div class="highlight-box">
+                        <p>2025年，IT室在智能化中心的统一领导下，坚持"AI工程化、产品精品化、流程规范化"三大核心战略。</p>
+                    </div>
+                    <p style="font-size: 1.25rem; line-height: 1.8;">
+                        团队充分发挥工程化能力与AI技术栈优势，实现了从工具研发到业务赋能的闭环，显著提升了公司数字化转型效能。</p>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem;">
+                        <div
+                            style="text-align: center; padding: 1.5rem; background: rgba(192,37,55,0.05); border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">AI工程化</div>
+                            <div style="font-size: 1rem; color: var(--text-light); margin-top: 0.5rem;">技术落地</div>
+                        </div>
+                        <div
+                            style="text-align: center; padding: 1.5rem; background: rgba(192,37,55,0.05); border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">产品精品化</div>
+                            <div style="font-size: 1rem; color: var(--text-light); margin-top: 0.5rem;">体验升级</div>
+                        </div>
+                        <div
+                            style="text-align: center; padding: 1.5rem; background: rgba(192,37,55,0.05); border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">流程规范化</div>
+                            <div style="font-size: 1rem; color: var(--text-light); margin-top: 0.5rem;">管理创新</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <h1>核心板块回顾</h1>
+            <div class="content-area">
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">AI</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">技术深度落地</div>
+                            <h3>AI技术深度落地与创新赋能</h3>
+                            <p><strong>核心突破</strong>：将AI从实验性探索推向业务生产环境</p>
+                            <ul>
+                                <li><strong>智能体矩阵</strong>：成功开发并落地销售助手V1.1、红绿灯智能体、PMO材料转换、CG Notes等5+类核心Agent</li>
+                                <li><strong>AI报告系统</strong>：实现通用AI报告功能，全面覆盖采购申请、流程表单场景，大幅减少人工撰写时间</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">CG</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">产品矩阵攻坚</div>
+                            <h3>核心产品矩阵攻坚（CG系列）</h3>
+                            <p><strong>核心突破</strong>：通过架构重构与交互创新，提升产品生命力</p>
+                            <ul>
+                                <li><strong>CG Notes</strong>：迭代至1.6.2版本，实现语音转文字、AI自动总结、自动生成周报等核心功能</li>
+                                <li><strong>CG Flow</strong>：完成管子分厂膜式壁组件工序跟踪，打通日报填报与图纸查看链路</li>
+                                <li><strong>CG Tender</strong>：构建投标团队智能协作平台，实现招标文件风险识别与多专业协同</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">看板</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">数据可视化</div>
+                            <h3>看板系统与预警机制</h3>
+                            <ul>
+                                <li><strong>业务域覆盖</strong>：落地协同中心异常看板、财务经营汇报看板、技术部资源可视化看板及采购分包看板等</li>
+                                <li><strong>Compass预警</strong>：构建红绿灯分级预警机制，实现异常24h/48h/96h自动升级通知</li>
+                                <li><strong>管理规范</strong>：完善智能化中心工作看板，集成迭代进度、SOP及线上问题追踪</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">协作</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">外部协作</div>
+                            <h3>外部协作与管理创新</h3>
+                            <ul>
+                                <li><strong>哈轴项目</strong>：深度参与哈轴项目，确保wflow、Notes项目在当地的稳定运行</li>
+                                <li><strong>管理赋能</strong>：输出《智能化中心工作看板》等规范化文档，建立技术设计文档模版</li>
+                                <li><strong>价值评估</strong>：构建部门价值评估体系，通过智能体辅助进行人员评价与工作估值</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <h1>关键数据亮点</h1>
+            <div class="content-area">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">¥189,936</div>
+                        <div class="stat-label">创造价值总计</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">95</div>
+                        <div class="stat-label">完成迭代总数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">¥48,135</div>
+                        <div class="stat-label">价值排名第一<br>袁江</div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 2rem;">
+                    <h3>核心迭代成果</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                        <div>
+                            <p style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">CG Flow (生产核心)
+                            </p>
+                            <p style="font-size: 1rem;">完成2.0-2.6.2多版本迭代，覆盖集箱/管子分厂驾驶舱、自动焊组屏、装焊工序日报、月度生产计划制定等核心业务</p>
+                        </div>
+                        <div>
+                            <p style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">CG Notes (协同办公)
+                            </p>
+                            <p style="font-size: 1rem;">从1.2进化至1.6.2，新增语音转文字、市场动态AI总结、xdd互动通知、全文搜索及iOS端适配</p>
+                        </div>
+                        <div>
+                            <p style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">CG Tender (投标辅助)
+                            </p>
+                            <p style="font-size: 1rem;">完成0.9-1.0版本构建，实现商务/法务AI审查及标书风险识别闭环</p>
+                        </div>
+                        <div>
+                            <p style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">数据与看板</p>
+                            <p style="font-size: 1rem;">落地协同中心异常看板、财务经营汇报看板、技术部资源看板及Compass红绿灯预警机制</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <h1>后续工作计划 (Q1 2026)</h1>
+            <div class="content-area">
+                <div class="grid-2x2">
+                    <div class="card">
+                        <h3>CG Notes 优化</h3>
+                        <ul>
+                            <li>解决哈轴访问 notes 反馈卡顿的问题</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>CG Tender 完善</h3>
+                        <ul>
+                            <li>完成智能工具开发</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>CG Flow 深化</h3>
+                        <ul>
+                            <li>完成工序级数据采集</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="slide cover">
+            <h1>欢迎批评指正</h1>
+            <p style="font-size: 1.25rem; margin-top: 2rem; font-style: italic;">能量总是沿着阻力最小的路径流动</p>
+            <p style="font-size: 1.25rem; margin-top: 1rem;">—— IT室年度寄语</p>
+            <p style="font-size: 1.5rem; margin-top: 3rem;">Q&A</p>
+        </div>
+    </div>
+    <div id="imageModal" class="modal"> <span class="close-modal">×</span> <img class="modal-content" id="modalImage" />
+    </div>
+    <script src="https://minio-api.cgboiler.com/wflow/js/pmo_base.js?t=1751528548983"></script>
+</body>
+
+</html>
