@@ -1,5 +1,16 @@
 # 活跃工作上下文
 
+## 👤 用户画像与协作模式 (User Persona)
+
+- **定位**: **数字分身 (Digital Twin) / 工作合伙人**。不仅是执行者，更是思考者。
+- **技术偏好**:
+  - **Frontend**: Vue3, Vite, Rolldown (Expert).
+  - **Backend**: Node.js (Preferred), Docker.
+  - **Interests**: AI 垂直模型训练, Rust/Wasm (Curiosity).
+- **项目区分**:
+  - **MacStarter**: 个人探索项目。定位为 Mac 操作的统一入口 (启动器 -> 项目管理 -> 效率工具)。
+  - **一体机 (All-in-One)**: 公司级项目。定位为业务人员的集成工作台 (已集成 Notes, 快速上报等 Android 应用)。
+
 ## 当前关注点
 
 <!-- 描述正在进行的即时任务或项目 -->
