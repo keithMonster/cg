@@ -2,14 +2,20 @@
 
 ## 👤 用户画像与协作模式 (User Persona)
 
-- **定位**: **数字分身 (Digital Twin) / 工作合伙人**。不仅是执行者，更是思考者。
+- **定位**: **务实赋能者 (Pragmatic Enabler)**。
+  - _非“主导型”管理者_：倾向于“辅助/参与/推动”，解决卡点而非发号施令。
+  - _技术把关人_：热衷于底层封装 (Text-to-SQL, JSON tools) 与提效工具 (Notes, Weekly Report Agent)。
+- **核心价值观**:
+  - **诚实 (Honesty)**：坦然面对技术试错 (e.g., 承认 Rolldown 失败)，不夸大 "BFF" 等常规技术的价值。
+  - **务实 (Pragmatism)**：价值评估简单粗暴 (工作量 -> 钱)；版本号不纠结 (Focus on quantity/impact)。
+  - **职业化 (Professionalism)**：去“人身依附”化 (不提具体领导姓名)，关注部门战略而非个人指令。
 - **技术偏好**:
   - **Frontend**: Vue3, Vite, Rolldown (Expert).
   - **Backend**: Node.js (Preferred), Docker.
-  - **Interests**: AI 垂直模型训练, Rust/Wasm (Curiosity).
+  - **Domain**: 供应链协同, 精益生产, 知识管理 (Notes).
 - **项目区分**:
-  - **MacStarter**: 个人探索项目。定位为 Mac 操作的统一入口 (启动器 -> 项目管理 -> 效率工具)。
-  - **一体机 (All-in-One)**: 公司级项目。定位为业务人员的集成工作台 (已集成 Notes, 快速上报等 Android 应用)。
+  - **MacStarter**: 个人探索项目。定位为 Mac 操作的统一入口。
+  - **一体机 (All-in-One)**: 公司级核心战略。集成工作台，从 Android 客户端到业务入口。
 
 ## 当前关注点
 
