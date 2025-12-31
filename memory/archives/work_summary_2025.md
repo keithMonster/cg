@@ -93,3 +93,61 @@
   - **Tender**：测试与 Showcase、智能体重构。
   - **AI/智能体**：大学生转正汇报智能体、PPT 生成智能体、CG Echo 智能体。
 - **技术基建**：Web Components 重构上传工具、听云接入、通用数据存储智能表格。
+
+## 12月 (续)
+
+### 12.30
+- 学习反重力的提示词
+- 看看 github trending 和 hacker news
+
+### 12.29
+- 研究下 esp 相关项目
+- AI 办理-商务接待-智能体调整
+- 规划部门季度会
+- 川锅智能体
+- esp 学习
+- 公司经营周会
+
+### 12.26
+- 迁移 notes 的智能体
+- Tender 交流会
+- 处理下 tender 的风险报告
+- 看看 github trending 和 hacker news
+
+### 12.25
+- tender 驾驶舱
+- 看看 github trending 和 hacker news
+- 读书-马斯克传
+
+### 12.24
+- 一体机-快速上报完善
+- 一体机-工作台完善
+- 看看 github trending 和 hacker news
+- 展厅欢迎语-功能完善（新增在页面上直接编辑的能力）
+- 读书-马斯克传
+
+### 12.23
+- 看看 wflow 分支判断
+- 大学生转正汇报工作台
+- 供应链知识库搜索问题
+- 跟哈轴的同事聊一下安灯的细节
+- 了解安灯相关的事情
+- 看看 github trending 和 hacker news
+- 处理欢迎页问题
+
+### 12.22
+- 通用 ppt 生成工具完善
+- 爬楼梯
+- 看看学点什么
+- 看下扩展 macStarter 的方案
+- 任务计时应用完善
+- 看看跨域的问题
+- 看看 notes 上的笔记
+- 一体机-工作台应用
+- 做一个任务计时应用
+- 测试一下 tender
+- 完善 macStarter 应用
+- 改改 tendet 提示词
+- 参加计划会
+- 创建一个应用中心
+- 改改 meeting 列表-去掉两人
