@@ -110,7 +110,7 @@
                 <template x-if="tasks.length === 0">
                     <div class="p-12 text-center text-slate-600 font-light italic">暂无任务，开启一个新的开始。</div>
                 </template>
-                <template x-for="task in paginatedTasks" :key="task.id">
+                <template x-for="task in sortedTasks" :key="task.id">
                     <div class="glass-card p-5 flex items-center justify-between group"
                         :class="task.is_completed ? 'opacity-50' : ''">
                         <div class="flex items-center gap-4 flex-1">
@@ -134,9 +134,9 @@
                 <!-- Load More Button -->
                 <template x-if="hasMoreTasks">
                     <div class="text-center pt-4">
-                        <sl-button variant="text" @click="loadMoreTasks">
+                        <sl-button variant="text" @click="loadMoreTasks" :loading="isLoadingTasks">
                             <sl-icon slot="prefix" name="arrow-down-circle"></sl-icon>
-                            加载更多
+                            加载更多任务
                         </sl-button>
                     </div>
                 </template>
@@ -188,6 +188,16 @@
                                 </div>
                             </template>
                         </div>
+                    </div>
+                </template>
+
+                <!-- Load More Logs Button -->
+                <template x-if="hasMoreLogs">
+                    <div class="text-center pt-4">
+                        <sl-button variant="text" @click="loadMoreLogs" :loading="isLoadingLogs">
+                            <sl-icon slot="prefix" name="clock-history"></sl-icon>
+                            加载更多历史
+                        </sl-button>
                     </div>
                 </template>
             </div>
@@ -276,9 +286,15 @@
                 isAddingTask: false,
                 taskPageSize: 20,
                 taskCurrentPage: 1,
+                hasMoreTasks: false,
+                isLoadingTasks: false,
 
                 // Logs State
                 logs: [],
+                logsCurrentPage: 1,
+                logsPageSize: 50,
+                hasMoreLogs: false,
+                isLoadingLogs: false,
                 filterDate: new Date().toISOString().split('T')[0],
 
                 // Timer State
@@ -379,13 +395,15 @@
                 async syncData() {
                     this.dbState = 'loading';
                     try {
-                        // Fetch Tasks
-                        let { data: ts } = await window.sbClient.from('chronos_tasks').select('*').order('created_at', { ascending: false });
-                        this.tasks = ts || [];
+                        this.tasks = []; // Reset locally to avoid dups on full re-sync
+                        this.logs = [];
+                        this.taskCurrentPage = 1;
+                        this.logsCurrentPage = 1;
 
-                        // Fetch Logs
-                        let { data: ls } = await window.sbClient.from('chronos_logs').select('*').order('started_at', { ascending: false });
-                        this.logs = ls || [];
+                        await Promise.all([
+                            this.fetchTasks(),
+                            this.fetchLogs()
+                        ]);
 
                         this.dbState = 'online';
                     } catch (e) {
@@ -394,21 +412,86 @@
                     }
                 },
 
+                async fetchTasks() {
+                    this.isLoadingTasks = true;
+                    try {
+                        const start = (this.taskCurrentPage - 1) * this.taskPageSize;
+                        const end = start + this.taskPageSize - 1;
+
+                        let { data: ts, error } = await window.sbClient
+                            .from('chronos_tasks')
+                            .select('*')
+                            .order('created_at', { ascending: false })
+                            .range(start, end);
+
+                        if (error) throw error;
+
+                        if (ts && ts.length > 0) {
+                            // Append new tasks, checking for duplicates just in case
+                            const existingIds = new Set(this.tasks.map(t => t.id));
+                            const newItems = ts.filter(t => !existingIds.has(t.id));
+                            this.tasks = [...this.tasks, ...newItems];
+                        }
+
+                        // Determine if there are more tasks
+                        this.hasMoreTasks = ts && ts.length === this.taskPageSize;
+
+                    } catch (e) {
+                        console.error("Error fetching tasks:", e);
+                    } finally {
+                        this.isLoadingTasks = false;
+                    }
+                },
+
+                async fetchLogs() {
+                    this.isLoadingLogs = true;
+                    try {
+                        const start = (this.logsCurrentPage - 1) * this.logsPageSize;
+                        const end = start + this.logsPageSize - 1;
+
+                        let { data: ls, error } = await window.sbClient
+                            .from('chronos_logs')
+                            .select('*')
+                            .order('started_at', { ascending: false })
+                            .range(start, end);
+
+                        if (error) throw error;
+
+                        if (ls && ls.length > 0) {
+                            const existingIds = new Set(this.logs.map(l => l.id));
+                            const newItems = ls.filter(l => !existingIds.has(l.id));
+                            this.logs = [...this.logs, ...newItems];
+                        }
+
+                        this.hasMoreLogs = ls && ls.length === this.logsPageSize;
+                    } catch (e) {
+                        console.error("Error fetching logs:", e);
+                    } finally {
+                        this.isLoadingLogs = false;
+                    }
+                },
+
                 // Task Methods
                 get sortedTasks() {
                     return this.tasks.slice().sort((a, b) => a.is_completed - b.is_completed);
                 },
 
-                get paginatedTasks() {
-                    return this.sortedTasks.slice(0, this.taskCurrentPage * this.taskPageSize);
-                },
+                // get paginatedTasks() {
+                //     return this.sortedTasks.slice(0, this.taskCurrentPage * this.taskPageSize);
+                // },
 
-                get hasMoreTasks() {
-                    return this.paginatedTasks.length < this.sortedTasks.length;
-                },
+                // get hasMoreTasks() {
+                //     return this.paginatedTasks.length < this.sortedTasks.length;
+                // },
 
                 loadMoreTasks() {
                     this.taskCurrentPage++;
+                    this.fetchTasks();
+                },
+
+                loadMoreLogs() {
+                    this.logsCurrentPage++;
+                    this.fetchLogs();
                 },
 
                 async addTask() {
