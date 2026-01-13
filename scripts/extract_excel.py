@@ -3,21 +3,26 @@ import sys
 
 def extract_excel_data(file_path):
     try:
-        # Load the excel file
-        # Assuming the first sheet contains the data
-        df = pd.read_excel(file_path)
+        # Load all sheets from the excel file
+        xl = pd.ExcelFile(file_path)
+        sheet_names = xl.sheet_names
         
-        # Output the content as a string
-        print(df.to_string())
-        
-        # Also print detailed info about columns if needed, but to_string usually gives a good overview for small files
-        # If the file is complex, we might need to iterate rows
-        print("\n--- DETAILED ROW DATA ---\n")
-        for index, row in df.iterrows():
-            print(f"Row {index}:")
-            for col in df.columns:
-                print(f"  {col}: {row[col]}")
-            print("-" * 20)
+        for sheet_name in sheet_names:
+            print(f"\n{'='*20} SHEET: {sheet_name} {'='*20}\n")
+            df = pd.read_excel(file_path, sheet_name=sheet_name)
+            
+            # Output the content as a string
+            print(df.to_string())
+            
+            print(f"\n--- DETAILED ROW DATA (Sheet: {sheet_name}) ---\n")
+            for index, row in df.iterrows():
+                print(f"Row {index}:")
+                for col in df.columns:
+                    print(f"  {col}: {row[col]}")
+                print("-" * 20)
+            
+    except Exception as e:
+        print(f"Error reading excel file: {e}")
             
     except Exception as e:
         print(f"Error reading excel file: {e}")
