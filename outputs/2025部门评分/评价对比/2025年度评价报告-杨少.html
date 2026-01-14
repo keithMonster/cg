@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>杨少 - 2025年度评价对比</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+        h1 { margin: 0; color: #1a73e8; }
+        .role { color: #666; margin-top: 5px; }
+        
+        #radar-chart {
+            width: 100%;
+            height: 500px;
+            margin-bottom: 40px;
+        }
+        
+        .info-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 8px;
+            background: #f1f3f4;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #1a73e8;
+            font-size: 16px;
+            border-left: 4px solid #1a73e8;
+            padding-left: 10px;
+        }
+        .full-width {
+            grid-column: span 2;
+        }
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .meta-item {
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .meta-label { font-size: 12px; color: #888; display: block; }
+        .meta-value { font-weight: bold; font-size: 14px; }
+        
+        .footer-note {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>杨少</h1>
+            <div class="role">后端开发工程师 | 2025年度评价分析报告</div>
+        </header>
+        
+        <div id="radar-chart"></div>
+        
+        <div class="info-section">
+            <div class="card">
+                <h3>优势亮点</h3>
+                <p>好奇 敏捷 学习力</p>
+            </div>
+            <div class="card">
+                <h3>待提升项</h3>
+                <p>业务积累 经验</p>
+            </div>
+            <div class="card full-width">
+                <h3>任用建议</h3>
+                <p>培养/扩大工作范围</p>
+            </div>
+            <div class="card full-width">
+                <h3>目前核心工作</h3>
+                <p>后端开发</p>
+            </div>
+            
+            <div class="card full-width" style="background: #e8f0fe; border: 1px solid #1a73e8;">
+                <h3 style="color: #1a73e8;">人才发展报告 (详述)</h3>
+                <div style="white-space: pre-wrap; font-size: 14px; line-height: 1.6;">杨少人才发展报告
+
+红绿灯定位：4 （表现尚可但能力一般）
+职级评定： 中绩效-中潜力
+
+综合表现 1.素质得分 2.5（低）：
+a.责任维度：合格水平（3 分）
+b.协同维度：合格水平（2 分）
+c.创新维度：合格水平（2 分） 2.业绩得分 3（中）：
+a.工作贡献度 3（基本达标）
+b.工作及时性 3（基本达标）
+c.工作质量 3（基本达标） 3.潜力得分 7（中）：
+a.学习敏捷度 3（高）
+b.职业抱负 1（低）
+c.敬业度 3（高）
+
+核心优点 1.学习敏捷度与技术转型能力
+a.入职短时间内成功从 Java 体系转栈至 Python/Node.js，并快速掌握 智能体开发与配置。
+b.有悟性，能利用业余时间主动补齐技术短板。 2.技术钻研热情
+a. 不满足于传统的增删改查，主动探索 AI 在业务中的落地（如 AI 智能体的开发与配置）。
+
+待提升点 1.业务深度与全局观：对复杂工业场景的业务逻辑理解尚浅，存在“技术思维”重于“业务思维”的现象。
+a. 需加强对数据流转（如生产计划）背后业务含义的理解，减少因逻辑盲区导致的开发返工。
+b.提升与产品经理/业务方的沟通质量，确保需求理解的准确性，而非单纯执行代码逻辑。 2.抗压能力与心态成熟度：在面对高难度任务或进度压力时，容易产生焦虑情绪。
+a. 需建立更稳健的职场心态，将“怕拖后腿”的焦虑转化为“解决问题”的动力，学会合理求助与协作。
+
+发展计划
+职责扩展方案： 1.独立模块负责人（Owner）
+a.独立承担 CG Flow 的后端开发工作，确立为该系统的后端负责人 2.继任者培养
+a.作为欧强的潜在技术继任者，开始分担部分后端基础架构的维护工作，逐步积累架构经验。
+
+能力提升路径： 1.业务深入
+a.每季度至少进行 1 次深入一线的业务调研，建立对业务数据的直观“体感”。 2.架构能力与分享
+a.梳理 CG Flow 相关业务域逻辑，独立输出 1 份完整的后端技术方案设计文档（包含数据库 ER 图、接口定义、核心逻辑流程），并组织技术分享。
+</div>
+            </div>
+            
+        </div>
+
+        <div class="meta-grid">
+            <div class="meta-item">
+                <span class="meta-label">红绿灯定位</span>
+                <span class="meta-value" style="color: #ea4335">4</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">潜力等级</span>
+                <span class="meta-value">中</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">关联系/继任者</span>
+                <span class="meta-value">龙安榴</span>
+            </div>
+        </div>
+        
+        <div class="footer-note">
+            * 报告自动生成 | 仅限内部复核使用
+        </div>
+    </div>
+
+    <script>
+        var chartDom = document.getElementById('radar-chart');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            title: {
+                text: '评价模型对比',
+                left: 'center',
+                top: 0
+            },
+            legend: {
+                data: ['员工自评', '部门评价'],
+                bottom: 10
+            },
+            radar: {
+                indicator: [{"name": "诚信", "max": 7}, {"name": "责任", "max": 7}, {"name": "协同", "max": 7}, {"name": "创新", "max": 7}, {"name": "工作贡献度", "max": 7}, {"name": "工作及时性", "max": 7}, {"name": "工作质量", "max": 7}, {"name": "学习敏捷度", "max": 3}, {"name": "职业抱负", "max": 3}, {"name": "敬业度", "max": 3}],
+                shape: 'circle',
+                splitNumber: 5,
+                axisName: {
+                    color: '#888'
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: [
+                            'rgba(238, 238, 238, 1)',
+                            'rgba(238, 238, 238, 0.8)',
+                            'rgba(238, 238, 238, 0.6)',
+                            'rgba(238, 238, 238, 0.4)',
+                            'rgba(238, 238, 238, 0.2)'
+                        ].reverse()
+                    }
+                },
+                splitArea: {
+                    show: false
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(238, 238, 238, 0.5)'
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'Evaluation Comparison',
+                    type: 'radar',
+                    data: [
+                        {
+                            value: [6, 6, 5, 4, 5, 6, 5, 2, 1, 3],
+                            name: '员工自评',
+                            areaStyle: {
+                                color: 'rgba(26, 115, 232, 0.2)'
+                            },
+                            lineStyle: {
+                                color: '#1a73e8',
+                                width: 2
+                            },
+                            itemStyle: {
+                                color: '#1a73e8'
+                            }
+                        },
+                        {
+                            value: [3, 3, 2, 2, 3, 3, 3, 3, 1, 3],
+                            name: '部门评价',
+                            areaStyle: {
+                                color: 'rgba(234, 67, 53, 0.2)'
+                            },
+                            lineStyle: {
+                                color: '#ea4335',
+                                width: 2
+                            },
+                            itemStyle: {
+                                color: '#ea4335'
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
+    

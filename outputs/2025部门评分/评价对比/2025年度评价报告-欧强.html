@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>欧强 - 2025年度评价对比</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+        h1 { margin: 0; color: #1a73e8; }
+        .role { color: #666; margin-top: 5px; }
+        
+        #radar-chart {
+            width: 100%;
+            height: 500px;
+            margin-bottom: 40px;
+        }
+        
+        .info-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 8px;
+            background: #f1f3f4;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #1a73e8;
+            font-size: 16px;
+            border-left: 4px solid #1a73e8;
+            padding-left: 10px;
+        }
+        .full-width {
+            grid-column: span 2;
+        }
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .meta-item {
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .meta-label { font-size: 12px; color: #888; display: block; }
+        .meta-value { font-weight: bold; font-size: 14px; }
+        
+        .footer-note {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>欧强</h1>
+            <div class="role">软件工程师 | 2025年度评价分析报告</div>
+        </header>
+        
+        <div id="radar-chart"></div>
+        
+        <div class="info-section">
+            <div class="card">
+                <h3>优势亮点</h3>
+                <p>责任 好奇</p>
+            </div>
+            <div class="card">
+                <h3>待提升项</h3>
+                <p>沟通 耐心 影响力</p>
+            </div>
+            <div class="card full-width">
+                <h3>任用建议</h3>
+                <p>保持现状</p>
+            </div>
+            <div class="card full-width">
+                <h3>目前核心工作</h3>
+                <p>服务器运维，后端开发</p>
+            </div>
+            
+        </div>
+
+        <div class="meta-grid">
+            <div class="meta-item">
+                <span class="meta-label">红绿灯定位</span>
+                <span class="meta-value" style="color: #fbbc04">2</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">潜力等级</span>
+                <span class="meta-value">中</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">关联系/继任者</span>
+                <span class="meta-value">龙安榴</span>
+            </div>
+        </div>
+        
+        <div class="footer-note">
+            * 报告自动生成 | 仅限内部复核使用
+        </div>
+    </div>
+
+    <script>
+        var chartDom = document.getElementById('radar-chart');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            title: {
+                text: '评价模型对比',
+                left: 'center',
+                top: 0
+            },
+            legend: {
+                data: ['员工自评', '部门评价'],
+                bottom: 10
+            },
+            radar: {
+                indicator: [{"name": "诚信", "max": 7}, {"name": "责任", "max": 7}, {"name": "协同", "max": 7}, {"name": "创新", "max": 7}, {"name": "工作贡献度", "max": 7}, {"name": "工作及时性", "max": 7}, {"name": "工作质量", "max": 7}, {"name": "学习敏捷度", "max": 3}, {"name": "职业抱负", "max": 3}, {"name": "敬业度", "max": 3}],
+                shape: 'circle',
+                splitNumber: 5,
+                axisName: {
+                    color: '#888'
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: [
+                            'rgba(238, 238, 238, 1)',
+                            'rgba(238, 238, 238, 0.8)',
+                            'rgba(238, 238, 238, 0.6)',
+                            'rgba(238, 238, 238, 0.4)',
+                            'rgba(238, 238, 238, 0.2)'
+                        ].reverse()
+                    }
+                },
+                splitArea: {
+                    show: false
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(238, 238, 238, 0.5)'
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'Evaluation Comparison',
+                    type: 'radar',
+                    data: [
+                        {
+                            value: [7, 6, 5, 5, 6, 5, 6, 3, 2, 3],
+                            name: '员工自评',
+                            areaStyle: {
+                                color: 'rgba(26, 115, 232, 0.2)'
+                            },
+                            lineStyle: {
+                                color: '#1a73e8',
+                                width: 2
+                            },
+                            itemStyle: {
+                                color: '#1a73e8'
+                            }
+                        },
+                        {
+                            value: [5, 3, 2, 4, 4, 5, 4, 2, 1, 3],
+                            name: '部门评价',
+                            areaStyle: {
+                                color: 'rgba(234, 67, 53, 0.2)'
+                            },
+                            lineStyle: {
+                                color: '#ea4335',
+                                width: 2
+                            },
+                            itemStyle: {
+                                color: '#ea4335'
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
+    
