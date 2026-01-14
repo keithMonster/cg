@@ -167,10 +167,6 @@ def generate_html():
                 <span class="meta-value">{{SUCCESSOR}}</span>
             </div>
         </div>
-        
-        <div class="footer-note">
-            * 报告自动生成 | 仅限内部复核使用
-        </div>
     </div>
 
     <script>
