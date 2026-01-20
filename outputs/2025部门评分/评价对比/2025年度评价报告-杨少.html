@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <title>杨少 - 2025年度评价对比</title>
@@ -13,39 +13,51 @@
             background: #f8f9fa;
             color: #333;
         }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
             background: #fff;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
+
         header {
             text-align: center;
             border-bottom: 2px solid #eee;
             margin-bottom: 30px;
             padding-bottom: 20px;
         }
-        h1 { margin: 0; color: #1a73e8; }
-        .role { color: #666; margin-top: 5px; }
-        
+
+        h1 {
+            margin: 0;
+            color: #1a73e8;
+        }
+
+        .role {
+            color: #666;
+            margin-top: 5px;
+        }
+
         #radar-chart {
             width: 100%;
             height: 500px;
             margin-bottom: 40px;
         }
-        
+
         .info-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
+
         .card {
             padding: 20px;
             border-radius: 8px;
             background: #f1f3f4;
         }
+
         .card h3 {
             margin-top: 0;
             color: #1a73e8;
@@ -53,15 +65,18 @@
             border-left: 4px solid #1a73e8;
             padding-left: 10px;
         }
+
         .full-width {
             grid-column: span 2;
         }
+
         .meta-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-top: 20px;
         }
+
         .meta-item {
             background: #fff;
             padding: 10px;
@@ -69,26 +84,228 @@
             text-align: center;
             border: 1px solid #ddd;
         }
-        .meta-label { font-size: 12px; color: #888; display: block; }
-        .meta-value { font-weight: bold; font-size: 14px; }
-        
+
+        .meta-label {
+            font-size: 12px;
+            color: #888;
+            display: block;
+        }
+
+        .meta-value {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
         .footer-note {
             margin-top: 40px;
             text-align: center;
             font-size: 12px;
             color: #aaa;
         }
+
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 14px;
+            table-layout: fixed;
+        }
+
+        .score-table th,
+        .score-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .score-table th {
+            background: #1a73e8;
+            color: #fff;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .score-table th:nth-child(1) {
+            width: 80px;
+        }
+
+        .score-table th:nth-child(2) {
+            width: 50px;
+        }
+
+        .score-table th:nth-child(3) {
+            width: auto;
+        }
+
+        .score-table th:nth-child(4) {
+            width: 50px;
+        }
+
+        .score-table th:nth-child(5) {
+            width: auto;
+        }
+
+        .score-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .score-table tr:hover {
+            background: #e8f0fe;
+        }
+
+        .score-table .category {
+            background: #f1f3f4;
+            font-weight: bold;
+            text-align: left;
+            padding-left: 15px;
+        }
+
+        .score-table .item-name {
+            text-align: left;
+            padding-left: 10px;
+            white-space: nowrap;
+        }
+
+        .score-table .self-score,
+        .score-table .dept-score {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .score-table .self-score {
+            color: #1a73e8;
+        }
+
+        .score-table .dept-score {
+            color: #ea4335;
+        }
+
+        .score-table .standard {
+            text-align: left;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .table-section {
+            margin-top: 40px;
+        }
+
+        .table-section h2 {
+            color: #1a73e8;
+            font-size: 18px;
+            border-left: 4px solid #1a73e8;
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>杨少</h1>
             <div class="role">后端开发工程师 | 2025年度评价分析报告</div>
         </header>
-        
+
         <div id="radar-chart"></div>
-        
+
+        <div class="table-section">
+            <h2>评分对比表</h2>
+            <table class="score-table">
+                <thead>
+                    <tr>
+                        <th>评价维度</th>
+                        <th>自评</th>
+                        <th>自评对应描述</th>
+                        <th>部门评价</th>
+                        <th>部门评价对应描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" class="category">素质评价（0-7分）</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">诚信</td>
+                        <td class="self-score">6</td>
+                        <td class="standard">【卓越】止恶扬善：制止他人错误，面对极大困难时仍能信守承诺，面对诱惑时恪守奉公，是企业中的榜样</td>
+                        <td class="dept-score">3</td>
+                        <td class="standard">【合格】言行合一：遵守承诺，说到做到，善待他人</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">责任</td>
+                        <td class="self-score">6</td>
+                        <td class="standard">【卓越】树立标杆：将压力视为动力，有强烈的目标感和必达目标的信心，影响团队形成永不退缩的毅力与决心</td>
+                        <td class="dept-score">3</td>
+                        <td class="standard">【合格】不言放弃：面对困难和压力时，不轻言放弃，主动寻求帮助，坚持完成工作</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">协同</td>
+                        <td class="self-score">5</td>
+                        <td class="standard">【优秀】100%满意：主动接触用户，准确理解他人需求，及时且专业地处理问题，遇到困难时不推诿，有担当，被他人信赖</td>
+                        <td class="dept-score">2</td>
+                        <td class="standard">【合格】积极响应：能够及时响应他人的需求，主动调整工作方式以满足需求，严格要求自身工作，保证工作质量</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">创新</td>
+                        <td class="self-score">4</td>
+                        <td class="standard">【优秀】推陈出新：主动更新迭代知识结构、思维模式、工作方法，并正面引导和带动同事产出新成果</td>
+                        <td class="dept-score">2</td>
+                        <td class="standard">【合格】接受适应：理性对待变化，主动了解、配合拥抱变化，并提出优化建议及解决方案</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="category">业绩评价（0-7分）</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">工作贡献度</td>
+                        <td class="self-score">5</td>
+                        <td class="standard">【达到预期】岗位工作贡献达到预期</td>
+                        <td class="dept-score">3</td>
+                        <td class="standard">【勉强达预期】岗位工作贡献勉强达到预期</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">工作及时性</td>
+                        <td class="self-score">6</td>
+                        <td class="standard">【超出预期】工作都能及时或提前完成</td>
+                        <td class="dept-score">3</td>
+                        <td class="standard">【勉强达预期】部分工作能按时完成，偶尔出现拖延</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">工作质量</td>
+                        <td class="self-score">5</td>
+                        <td class="standard">【达到预期】工作质量符合期望，能够满足岗位要求</td>
+                        <td class="dept-score">3</td>
+                        <td class="standard">【勉强达预期】工作质量勉强符合要求</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="category">潜力评价（1-3分，基于7项行为要求）</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">学习敏捷度</td>
+                        <td class="self-score">2</td>
+                        <td class="standard">【中】满足4-5项行为要求：自信但不自大、能从错误中快速纠正、敢于尝试改变、理解他人需求、快速掌握新知识、困难环境下镇定、将所学快速运用到实际工作</td>
+                        <td class="dept-score">3</td>
+                        <td class="standard">【高】满足6-7项行为要求</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">职业抱负</td>
+                        <td class="self-score">1</td>
+                        <td class="standard">【低】满足0-3项行为要求：设立高难度目标、接受挑战性任务、寻求更高职业发展、积极影响他人、担任更大领导角色、无惧拒绝或反对他人、具备全局观</td>
+                        <td class="dept-score">1</td>
+                        <td class="standard">【低】满足0-3项行为要求</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">敬业度</td>
+                        <td class="self-score">3</td>
+                        <td class="standard">【高】满足6-7项行为要求：期望长久服务公司、专注结果和目标、奉献更多、主人翁意识、享受工作过程、接受跨部门调配、付出额外努力</td>
+                        <td class="dept-score">3</td>
+                        <td class="standard">【高】满足6-7项行为要求</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="info-section">
             <div class="card">
                 <h3>优势亮点</h3>
@@ -106,7 +323,7 @@
                 <h3>目前核心工作</h3>
                 <p>后端开发</p>
             </div>
-            
+
             <div class="card full-width" style="background: #e8f0fe; border: 1px solid #1a73e8;">
                 <h3 style="color: #1a73e8;">人才发展报告 (详述)</h3>
                 <div style="white-space: pre-wrap; font-size: 14px; line-height: 1.6;">杨少人才发展报告
@@ -114,38 +331,57 @@
 红绿灯定位：4 （表现尚可但能力一般）
 职级评定： 中绩效-中潜力
 
-综合表现 1.素质得分 2.5（低）：
-a.责任维度：合格水平（3 分）
-b.协同维度：合格水平（2 分）
-c.创新维度：合格水平（2 分） 2.业绩得分 3（中）：
-a.工作贡献度 3（基本达标）
-b.工作及时性 3（基本达标）
-c.工作质量 3（基本达标） 3.潜力得分 7（中）：
-a.学习敏捷度 3（高）
-b.职业抱负 1（低）
-c.敬业度 3（高）
+综合表现
+1. 素质得分 2.5（低）
+   - 责任维度：合格水平（3 分）
+   - 协同维度：合格水平（2 分）
+   - 创新维度：合格水平（2 分）
 
-核心优点 1.学习敏捷度与技术转型能力
-a.入职短时间内成功从 Java 体系转栈至 Python/Node.js，并快速掌握 智能体开发与配置。
-b.有悟性，能利用业余时间主动补齐技术短板。 2.技术钻研热情
-a. 不满足于传统的增删改查，主动探索 AI 在业务中的落地（如 AI 智能体的开发与配置）。
+2. 业绩得分 3（中）
+   - 工作贡献度 3（基本达标）
+   - 工作及时性 3（基本达标）
+   - 工作质量 3（基本达标）
 
-待提升点 1.业务深度与全局观：对复杂工业场景的业务逻辑理解尚浅，存在“技术思维”重于“业务思维”的现象。
-a. 需加强对数据流转（如生产计划）背后业务含义的理解，减少因逻辑盲区导致的开发返工。
-b.提升与产品经理/业务方的沟通质量，确保需求理解的准确性，而非单纯执行代码逻辑。 2.抗压能力与心态成熟度：在面对高难度任务或进度压力时，容易产生焦虑情绪。
-a. 需建立更稳健的职场心态，将“怕拖后腿”的焦虑转化为“解决问题”的动力，学会合理求助与协作。
+3. 潜力得分 7（中）
+   - 学习敏捷度 3（高）
+   - 职业抱负 1（低）
+   - 敬业度 3（高）
+
+核心优点
+1. 学习敏捷度与技术转型能力
+   - 入职短时间内成功从 Java 体系转栈至 Python/Node.js，并快速掌握智能体开发与配置。
+   - 有悟性，能利用业余时间主动补齐技术短板。
+
+2. 技术钻研热情
+   - 不满足于传统的增删改查，主动探索 AI 在业务中的落地（如 AI 智能体的开发与配置）。
+
+待提升点
+1. 业务深度与全局观
+   - 对复杂工业场景的业务逻辑理解尚浅，存在"技术思维"重于"业务思维"的现象。
+   - 需加强对数据流转（如生产计划）背后业务含义的理解，减少因逻辑盲区导致的开发返工。
+   - 提升与产品经理/业务方的沟通质量，确保需求理解的准确性，而非单纯执行代码逻辑。
+
+2. 抗压能力与心态成熟度
+   - 在面对高难度任务或进度压力时，容易产生焦虑情绪。
+   - 需建立更稳健的职场心态，将"怕拖后腿"的焦虑转化为"解决问题"的动力，学会合理求助与协作。
 
 发展计划
-职责扩展方案： 1.独立模块负责人（Owner）
-a.独立承担 CG Flow 的后端开发工作，确立为该系统的后端负责人 2.继任者培养
-a.作为欧强的潜在技术继任者，开始分担部分后端基础架构的维护工作，逐步积累架构经验。
+职责扩展方案：
+1. 独立模块负责人（Owner）
+   - 独立承担 CG Flow 的后端开发工作，确立为该系统的后端负责人。
 
-能力提升路径： 1.业务深入
-a.每季度至少进行 1 次深入一线的业务调研，建立对业务数据的直观“体感”。 2.架构能力与分享
-a.梳理 CG Flow 相关业务域逻辑，独立输出 1 份完整的后端技术方案设计文档（包含数据库 ER 图、接口定义、核心逻辑流程），并组织技术分享。
-</div>
+2. 继任者培养
+   - 作为欧强的潜在技术继任者，开始分担部分后端基础架构的维护工作，逐步积累架构经验。
+
+能力提升路径：
+1. 业务深入
+   - 每季度至少进行 1 次深入一线的业务调研，建立对业务数据的直观"体感"。
+
+2. 架构能力与分享
+   - 梳理 CG Flow 相关业务域逻辑，独立输出 1 份完整的后端技术方案设计文档（包含数据库 ER 图、接口定义、核心逻辑流程），并组织技术分享。
+                </div>
             </div>
-            
+
         </div>
 
         <div class="meta-grid">
@@ -180,7 +416,7 @@ a.梳理 CG Flow 相关业务域逻辑，独立输出 1 份完整的后端技术
                 bottom: 10
             },
             radar: {
-                indicator: [{"name": "诚信", "max": 7}, {"name": "责任", "max": 7}, {"name": "协同", "max": 7}, {"name": "创新", "max": 7}, {"name": "工作贡献度", "max": 7}, {"name": "工作及时性", "max": 7}, {"name": "工作质量", "max": 7}, {"name": "学习敏捷度", "max": 3}, {"name": "职业抱负", "max": 3}, {"name": "敬业度", "max": 3}],
+                indicator: [{ "name": "诚信", "max": 7 }, { "name": "责任", "max": 7 }, { "name": "协同", "max": 7 }, { "name": "创新", "max": 7 }, { "name": "工作贡献度", "max": 7 }, { "name": "工作及时性", "max": 7 }, { "name": "工作质量", "max": 7 }, { "name": "学习敏捷度", "max": 3 }, { "name": "职业抱负", "max": 3 }, { "name": "敬业度", "max": 3 }],
                 shape: 'circle',
                 splitNumber: 5,
                 axisName: {
@@ -247,5 +483,5 @@ a.梳理 CG Flow 相关业务域逻辑，独立输出 1 份完整的后端技术
         myChart.setOption(option);
     </script>
 </body>
+
 </html>
-    

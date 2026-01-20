@@ -102,6 +102,102 @@
             font-size: 12px;
             color: #aaa;
         }
+
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 14px;
+            table-layout: fixed;
+        }
+
+        .score-table th,
+        .score-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .score-table th {
+            background: #1a73e8;
+            color: #fff;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .score-table th:nth-child(1) {
+            width: 80px;
+        }
+
+        .score-table th:nth-child(2) {
+            width: 50px;
+        }
+
+        .score-table th:nth-child(3) {
+            width: auto;
+        }
+
+        .score-table th:nth-child(4) {
+            width: 50px;
+        }
+
+        .score-table th:nth-child(5) {
+            width: auto;
+        }
+
+        .score-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .score-table tr:hover {
+            background: #e8f0fe;
+        }
+
+        .score-table .category {
+            background: #f1f3f4;
+            font-weight: bold;
+            text-align: left;
+            padding-left: 15px;
+        }
+
+        .score-table .item-name {
+            text-align: left;
+            padding-left: 10px;
+            white-space: nowrap;
+        }
+
+        .score-table .self-score,
+        .score-table .dept-score {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .score-table .self-score {
+            color: #1a73e8;
+        }
+
+        .score-table .dept-score {
+            color: #ea4335;
+        }
+
+        .score-table .standard {
+            text-align: left;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .table-section {
+            margin-top: 40px;
+        }
+
+        .table-section h2 {
+            color: #1a73e8;
+            font-size: 18px;
+            border-left: 4px solid #1a73e8;
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
@@ -113,6 +209,102 @@
         </header>
 
         <div id="radar-chart"></div>
+
+        <div class="table-section">
+            <h2>评分对比表</h2>
+            <table class="score-table">
+                <thead>
+                    <tr>
+                        <th>评价维度</th>
+                        <th>自评</th>
+                        <th>自评对应描述</th>
+                        <th>部门评价</th>
+                        <th>部门评价对应描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" class="category">素质评价（0-7分）</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">诚信</td>
+                        <td class="self-score">5</td>
+                        <td class="standard">【优秀】助人为乐：坚持原则，讲真话，真心实意帮助他人，并获得快乐</td>
+                        <td class="dept-score">6</td>
+                        <td class="standard">【卓越】止恶扬善：制止他人错误，面对极大困难时仍能信守承诺，面对诱惑时恪守奉公，是企业中的榜样</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">责任</td>
+                        <td class="self-score">6</td>
+                        <td class="standard">【卓越】树立标杆：将压力视为动力，有强烈的目标感和必达目标的信心，影响团队形成永不退缩的毅力与决心</td>
+                        <td class="dept-score">7</td>
+                        <td class="standard">【卓越】树立标杆：将压力视为动力，有强烈的目标感和必达目标的信心，影响团队形成永不退缩的毅力与决心</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">协同</td>
+                        <td class="self-score">5</td>
+                        <td class="standard">【优秀】100%满意：主动接触用户，准确理解他人需求，及时且专业地处理问题，遇到困难时不推诿，有担当，被他人信赖</td>
+                        <td class="dept-score">5</td>
+                        <td class="standard">【优秀】100%满意：主动接触用户，准确理解他人需求，及时且专业地处理问题，遇到困难时不推诿，有担当，被他人信赖</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">创新</td>
+                        <td class="self-score">5</td>
+                        <td class="standard">【优秀】推陈出新：主动更新迭代知识结构、思维模式、工作方法，并正面引导和带动同事产出新成果</td>
+                        <td class="dept-score">5</td>
+                        <td class="standard">【优秀】推陈出新：主动更新迭代知识结构、思维模式、工作方法，并正面引导和带动同事产出新成果</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="category">业绩评价（0-7分）</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">工作贡献度</td>
+                        <td class="self-score">7</td>
+                        <td class="standard">【超出预期】岗位工作贡献超出预期</td>
+                        <td class="dept-score">7</td>
+                        <td class="standard">【超出预期】岗位工作贡献超出预期</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">工作及时性</td>
+                        <td class="self-score">6</td>
+                        <td class="standard">【超出预期】工作都能及时或提前完成</td>
+                        <td class="dept-score">6</td>
+                        <td class="standard">【超出预期】工作都能及时或提前完成</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">工作质量</td>
+                        <td class="self-score">6</td>
+                        <td class="standard">【超出预期】工作质量超出预期，完全胜任岗位要求</td>
+                        <td class="dept-score">5</td>
+                        <td class="standard">【达到预期】工作质量符合期望，能够满足岗位要求</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="category">潜力评价（1-3分，基于7项行为要求）</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">学习敏捷度</td>
+                        <td class="self-score">3</td>
+                        <td class="standard">【高】满足6-7项行为要求：自信但不自大、能从错误中快速纠正、敢于尝试改变、理解他人需求、快速掌握新知识、困难环境下镇定、将所学快速运用到实际工作</td>
+                        <td class="dept-score">3</td>
+                        <td class="standard">【高】满足6-7项行为要求</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">职业抱负</td>
+                        <td class="self-score">3</td>
+                        <td class="standard">【高】满足6-7项行为要求：设立高难度目标、接受挑战性任务、寻求更高职业发展、积极影响他人、担任更大领导角色、无惧拒绝或反对他人、具备全局观</td>
+                        <td class="dept-score">3</td>
+                        <td class="standard">【高】满足6-7项行为要求</td>
+                    </tr>
+                    <tr>
+                        <td class="item-name">敬业度</td>
+                        <td class="self-score">3</td>
+                        <td class="standard">【高】满足6-7项行为要求：期望长久服务公司、专注结果和目标、奉献更多、主人翁意识、享受工作过程、接受跨部门调配、付出额外努力</td>
+                        <td class="dept-score">3</td>
+                        <td class="standard">【高】满足6-7项行为要求</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="info-section">
             <div class="card">
@@ -136,35 +328,51 @@
                 <h3 style="color: #1a73e8;">人才发展报告 (详述)</h3>
                 <div style="white-space: pre-wrap; font-size: 14px; line-height: 1.6;">叶维政人才发展报告
 
-                    红绿灯定位：1 （表现优异，核心骨干）
-                    职级评定： 高绩效-高潜力
+红绿灯定位：1 （表现优异，核心骨干）
+职级评定： 高绩效-高潜力
 
-                    综合表现 1.素质得分 2.8（高）：
-                    a.责任维度：卓越水平（7 分）
-                    b.协同维度：良好水平（5 分）
-                    c.创新维度：良好水平（5 分） 2.业绩得分 6（高）：
-                    a.工作贡献度 7（超预期）
-                    b.工作及时性 6（优秀）
-                    c.工作质量 5（良好） 3.潜力得分 9（高）：
-                    a.学习敏捷度 3（高）
-                    b.职业抱负 3（高）
-                    c.敬业度 3（高）
+综合表现
+1. 素质得分 2.8（高）
+   - 责任维度：卓越水平（7 分）
+   - 协同维度：良好水平（5 分）
+   - 创新维度：良好水平（5 分）
 
-                    核心优点 1.极致的责任心与执行力
-                    a.责任感极强（评分满分），对于交付的任务不仅能按时完成，更追求结果的完美，是团队中值得信赖的交付保障。 2.具备钻研精神与细致度
-                    a.在技术实现上具备钻研精神，不满足于表面功能实现。
-                    b.工作风格细致严谨，代码质量与逻辑细节把控良好。
+2. 业绩得分 6（高）
+   - 工作贡献度 7（超预期）
+   - 工作及时性 6（优秀）
+   - 工作质量 5（良好）
 
-                    待提升点 1.技术底层的系统性构建：虽然具备钻研精神，但需进一步加强对底层原理的系统性掌握，从"解决问题"向"知其所以然"进阶，提升解决复杂疑难杂症的能力。
-                    2.抗压能力与心态调节：面对高强度压力或突发状况时，心态调节能力有待加强，需培养更成熟的职场心态，保持冷静与定力。
+3. 潜力得分 9（高）
+   - 学习敏捷度 3（高）
+   - 职业抱负 3（高）
+   - 敬业度 3（高）
 
-                    发展计划
-                    职责扩展方案： 1.核心攻坚与挑战性任务
-                    a.赋予更多具有技术挑战性或业务复杂度的核心开发任务，发挥其高绩效优势。 2.导师角色（Mentoring）
-                    a.作为徐雨濛的关联系/上级对标，需承担起导师职责，在技术规范与工作习惯上进行带教。
+核心优点
+1. 极致的责任心与执行力
+   - 责任感极强（评分满分），对于交付的任务不仅能按时完成，更追求结果的完美，是团队中值得信赖的交付保障。
 
-                    能力提升路径： 1.技术深度挖掘
-                    a.完成一次框架或性能优化、AI 等领域的深挖，输出高质量的技术分享和最佳实践文档。
+2. 具备钻研精神与细致度
+   - 在技术实现上具备钻研精神，不满足于表面功能实现。
+   - 工作风格细致严谨，代码质量与逻辑细节把控良好。
+
+待提升点
+1. 技术底层的系统性构建
+   - 虽然具备钻研精神，但需进一步加强对底层原理的系统性掌握，从"解决问题"向"知其所以然"进阶，提升解决复杂疑难杂症的能力。
+
+2. 抗压能力与心态调节
+   - 面对高强度压力或突发状况时，心态调节能力有待加强，需培养更成熟的职场心态，保持冷静与定力。
+
+发展计划
+职责扩展方案：
+1. 核心攻坚与挑战性任务
+   - 赋予更多具有技术挑战性或业务复杂度的核心开发任务，发挥其高绩效优势。
+
+2. 导师角色（Mentoring）
+   - 作为徐雨濛的关联系/上级对标，需承担起导师职责，在技术规范与工作习惯上进行带教。
+
+能力提升路径：
+1. 技术深度挖掘
+   - 完成一次框架或性能优化、AI 等领域的深挖，输出高质量的技术分享和最佳实践文档。
                 </div>
             </div>
 
