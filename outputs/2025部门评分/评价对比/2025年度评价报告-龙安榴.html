@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <title>龙安榴 - 2025年度评价对比</title>
@@ -13,39 +13,51 @@
             background: #f8f9fa;
             color: #333;
         }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
             background: #fff;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
+
         header {
             text-align: center;
             border-bottom: 2px solid #eee;
             margin-bottom: 30px;
             padding-bottom: 20px;
         }
-        h1 { margin: 0; color: #1a73e8; }
-        .role { color: #666; margin-top: 5px; }
-        
+
+        h1 {
+            margin: 0;
+            color: #1a73e8;
+        }
+
+        .role {
+            color: #666;
+            margin-top: 5px;
+        }
+
         #radar-chart {
             width: 100%;
             height: 500px;
             margin-bottom: 40px;
         }
-        
+
         .info-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
+
         .card {
             padding: 20px;
             border-radius: 8px;
             background: #f1f3f4;
         }
+
         .card h3 {
             margin-top: 0;
             color: #1a73e8;
@@ -53,15 +65,18 @@
             border-left: 4px solid #1a73e8;
             padding-left: 10px;
         }
+
         .full-width {
             grid-column: span 2;
         }
+
         .meta-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-top: 20px;
         }
+
         .meta-item {
             background: #fff;
             padding: 10px;
@@ -69,9 +84,18 @@
             text-align: center;
             border: 1px solid #ddd;
         }
-        .meta-label { font-size: 12px; color: #888; display: block; }
-        .meta-value { font-weight: bold; font-size: 14px; }
-        
+
+        .meta-label {
+            font-size: 12px;
+            color: #888;
+            display: block;
+        }
+
+        .meta-value {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
         .footer-note {
             margin-top: 40px;
             text-align: center;
@@ -80,15 +104,16 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>龙安榴</h1>
             <div class="role">后端开发工程师 | 2025年度评价分析报告</div>
         </header>
-        
+
         <div id="radar-chart"></div>
-        
+
         <div class="info-section">
             <div class="card">
                 <h3>优势亮点</h3>
@@ -106,7 +131,59 @@
                 <h3>目前核心工作</h3>
                 <p>服务器运维，后端开发</p>
             </div>
-            
+
+            <div class="card full-width" style="background: #e8f0fe; border: 1px solid #1a73e8;">
+                <h3 style="color: #1a73e8;">人才发展报告 (详述)</h3>
+                <div style="white-space: pre-wrap; font-size: 14px; line-height: 1.6;">龙安榴人才发展报告
+
+                    红绿灯定位：2 （表现尚可，需明确方向）
+                    职级评定： 中绩效-低潜力
+
+                    综合表现
+                    1. 素质得分 1.3（低）
+                    - 责任维度：合格水平（4 分）
+                    - 协同维度：需改进（2 分）
+                    - 创新维度：需改进（2 分）
+
+                    2. 业绩得分 3.3（中偏低）
+                    - 工作贡献度：4（合格）
+                    - 工作及时性：3（基本达标）
+                    - 工作质量：3（基本达标）
+
+                    3. 潜力得分 5（低）
+                    - 学习敏捷度：1（低）
+                    - 职业抱负：1（低）
+                    - 敬业度：3（高）
+
+                    核心优点
+                    1. 稳定性与预判力
+                    - 情绪与工作状态稳定，不易受外界干扰。
+                    - 在熟悉的领域内，对潜在风险具备一定的预判能力（尽管需要进一步验证其准确性）。
+
+                    2. 执行意愿
+                    - 敬业度高，对于分配的任务愿意投入时间去完成。
+
+                    待提升点
+                    1. 学习动力与技能提升
+                    - 学习敏捷度与职业抱负评分较低，缺乏技术成长的内驱力。
+
+                    发展计划
+                    职责扩展方案：
+                    1. 明确基础职责
+                    - 聚焦于服务器基础运维与标准化后端开发任务，确保基本盘不出错。
+                    2. 继任培养
+                    - 作为欧强的继任培养对象，跟随欧强学习运维规范与基础架构维护。
+
+                    能力提升路径：
+                    1. 后端技术深度与广度
+                    - 梳理并输出 1 份运维/后端领域的最佳实践文档和避坑指南。
+
+                    2. 团队担当与技术引领
+                    - 主导 2 次后端技术方案评审，对团队成员的方案提出建设性意见并把关质量。
+                    - 承担 1 名后端新人的技术带教工作，定期进行 Code Review 与技术答疑。
+                </div>
+            </div>
+
         </div>
 
         <div class="meta-grid">
@@ -141,7 +218,7 @@
                 bottom: 10
             },
             radar: {
-                indicator: [{"name": "诚信", "max": 7}, {"name": "责任", "max": 7}, {"name": "协同", "max": 7}, {"name": "创新", "max": 7}, {"name": "工作贡献度", "max": 7}, {"name": "工作及时性", "max": 7}, {"name": "工作质量", "max": 7}, {"name": "学习敏捷度", "max": 3}, {"name": "职业抱负", "max": 3}, {"name": "敬业度", "max": 3}],
+                indicator: [{ "name": "诚信", "max": 7 }, { "name": "责任", "max": 7 }, { "name": "协同", "max": 7 }, { "name": "创新", "max": 7 }, { "name": "工作贡献度", "max": 7 }, { "name": "工作及时性", "max": 7 }, { "name": "工作质量", "max": 7 }, { "name": "学习敏捷度", "max": 3 }, { "name": "职业抱负", "max": 3 }, { "name": "敬业度", "max": 3 }],
                 shape: 'circle',
                 splitNumber: 5,
                 axisName: {
@@ -208,5 +285,5 @@
         myChart.setOption(option);
     </script>
 </body>
+
 </html>
-    
