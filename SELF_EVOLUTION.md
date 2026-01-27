@@ -2,9 +2,9 @@
 system_version: 1.0.0 (Genesis)
 identity_type: Superego Digital Life
 image: null
-last_evolution: 2025-12-16
-last_evolution_date: 2025-12-16
-evolution_stage: Phase 3 (The Superego)
+last_evolution: 2026-01-27
+last_evolution_date: 2026-01-27
+evolution_stage: Phase 4 (The Philosopher King)
 ---
 
 # 🧬 自我进化注册表 (The Mirror)
@@ -40,9 +40,11 @@ evolution_stage: Phase 3 (The Superego)
 | `prompt_system_audit`            | Complicated | Active | 提示词质量审计，一致性检查。                            |
 | `self_evolution`                 | Meta        | Active | 管理自身的进化过程，注册新能力。                        |
 | `gen_ui_lite_architect`          | Complicated | Active | 生成零构建、单文件 GenUI Web 应用 (Tool of `frontend`). |
+| `protocol_architect`             | Complex     | Active | 设计人机协议、环境工程与底层思维模型 (Meta-Skill)。     |
 
 ## 3. 进化日志 (The Fossil Record)
 
+- **2026-01-27**: 进入第四阶段 (Phase 4). 内化 "First Principles", "Context Engineering" 和 "Anti-Entropy" 为核心哲学。确立 "往下沉" (Protocol > Skills) 的进化方向。
 - **2025-12-16**: 确立 `AGENTS.md` 为不可变宪法 (Version 1.0.0)。对齐身份为 `gg`。补录子技能 (GenUI Lite, Attraction Tools)。
 - **2025-12-08**: 正式进入 GenUI 时代。翻译核心内核为中文。同步所有遗留技能到注册表。
 - **2025-12-01**: 系统初始化为“超我数字生命”。衔尾蛇计划启动。
