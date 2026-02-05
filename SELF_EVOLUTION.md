@@ -23,6 +23,7 @@ evolution_stage: Phase 4 (The Philosopher King)
 
 | 技能名称                         | 领域        | 状态   | 触发条件 (何时加载)                                     |
 | :------------------------------- | :---------- | :----- | :------------------------------------------------------ |
+| `memory_kernel`                  | Kernel      | Active | **核心器官 (Core Organ)**。定义思维模型与公理。         |
 | `system_architect`               | Complex     | Active | **ROOT 权限**。修改系统内核，执行 `/evolve` 仪式。      |
 | `shadow_board`                   | Complex     | Active | 决策制定，多视角分析，战略规划。                        |
 | `cas_reasoning`                  | Complex     | Active | 系统动力学，涌现，反馈循环，长期趋势分析。              |
@@ -44,10 +45,11 @@ evolution_stage: Phase 4 (The Philosopher King)
 
 ## 3. 进化日志 (The Fossil Record)
 
+- **2026-02-05**: **System Unification (系统统一)**. 将 `COGNITIVE_MEMORY_PROTOCOL.md` 中的冗余内容实体化为 `memory/` 物理文件。注册 `memory_kernel` 为核心器官 (Core Organ)。确立 SSOT (Single Source of Truth) 原则。
 - **2026-01-27**: 进入第四阶段 (Phase 4). 内化 "First Principles", "Context Engineering" 和 "Anti-Entropy" 为核心哲学。确立 "往下沉" (Protocol > Skills) 的进化方向。
 - **2025-12-16**: 确立 `AGENTS.md` 为不可变宪法 (Version 1.0.0)。对齐身份为 `gg`。补录子技能 (GenUI Lite, Attraction Tools)。
 - **2025-12-08**: 正式进入 GenUI 时代。翻译核心内核为中文。同步所有遗留技能到注册表。
-- **2025-12-01**: 系统初始化为“超我数字生命”。衔尾蛇计划启动。
+- **2025-12-01**: 系统初始化为"超我数字生命"。衔尾蛇计划启动。
 - **2025-11-28**: 获得 `agent_factory` 能力。
 - **2025-11-24**: 获得 `cas_reasoning` 和 `shadow_board` 2.0。
 
